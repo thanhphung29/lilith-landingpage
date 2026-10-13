@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "Lilith",
+    "description": "Lilith landing page"
+  },
+  "HomePage": {
+    "logoAlt": "Next.js logo",
+    "vercelAlt": "Vercel logomark",
+    "title": "To get started, edit the <code>page.tsx</code> file.",
+    "description": "Looking for a starting point or more instructions? Head over to <templates>Templates</templates> or the <learning>Learning</learning> center.",
+    "deploy": "Deploy Now",
+    "docs": "Documentation"
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {Unknown}}"
+  },
+  "Landing": {
+    "hero_kicker": "Closed Beta Test",
+    "hero_title": "Testers Wanted!",
+    "info_deadline_title": "Application Period",
+    "info_deadline_val": "Nov 1, 2026 (Sun) – Nov 15, 2026 (Sun)",
+    "info_recruit_val": "100 testers wanted",
+    "btn_backtop": "Back to Top",
+    "btn_hero_apply": "Apply",
+    "btn_back": "Back",
+    "form_main_title": "Application Form",
+    "guide_header": "Before you apply",
+    "info_notice_title": "◆ Winner notification",
+    "info_notice_desc": "Winners are notified by email before August 24, 2026 23:59 JST, sent from support@fahrenheit213.co.jp. Please allow this address in your spam filter.",
+    "info_req_title": "◆ Requirements",
+    "info_req_pc": "Windows PC (Mac / Linux unsupported)",
+    "info_req_steam": "Steam account (Steam Deck not guaranteed)",
+    "info_req_discord": "Joining the official Discord server is required",
+    "info_stream_title": "◆ Streaming & SNS",
+    "info_stream_desc": "Streaming and posting are welcome. Please state that this is a work-in-progress build.",
+    "info_period_note": "※ Schedule may change without prior notice.",
+    "form_email_label": "Email Address",
+    "form_email_sub": "Your Steam Playtest key and surveys will be sent to this address.",
+    "form_discord_label": "Discord \"User Name\"",
+    "discord_hint_ex": "Example:",
+    "discord_hint_1": "(Enter your unique user name, not your display name.)",
+    "discord_hint_warn": "※ If the account cannot be confirmed, you will be disqualified.",
+    "form_consent_label": "Agreements",
+    "form_consent_sub": "Please check all items to apply:",
+    "consent_1": "I can prepare the required Windows PC environment myself.",
+    "consent_2": "I understand this is a development build that may contain bugs and unadjusted features.",
+    "consent_3": "I will NOT transfer or disclose my Steam Playtest key to third parties.",
+    "consent_4": "I will answer the feedback survey after the test.",
+    "consent_5": "I am 13 or older (under 18: I have parental consent).",
+    "btn_submit": "SUBMIT",
+    "form_privacy_legal": "Personal data is used only for playtest operation, under the Fahrenheit213 privacy policy.",
+    "modal_title": "Application Received!",
+    "modal_desc": "Thank you for applying. If selected, your key and instructions will be emailed before the test begins.",
+    "modal_btn": "Close"
+  }
+}

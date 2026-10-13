@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "Lilith",
+    "description": "Trang giới thiệu Lilith"
+  },
+  "HomePage": {
+    "logoAlt": "Logo Next.js",
+    "vercelAlt": "Biểu tượng Vercel",
+    "title": "Để bắt đầu, hãy chỉnh sửa tệp <code>page.tsx</code>.",
+    "description": "Bạn cần điểm khởi đầu hoặc thêm hướng dẫn? Hãy xem <templates>Mẫu</templates> hoặc trung tâm <learning>Học tập</learning>.",
+    "deploy": "Triển khai ngay",
+    "docs": "Tài liệu"
+  },
+  "LocaleSwitcher": {
+    "label": "Ngôn ngữ",
+    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {Không rõ}}"
+  },
+  "Landing": {
+    "hero_kicker": "クローズβテスト",
+    "hero_title": "参加者募集！",
+    "info_deadline_title": "応募期間",
+    "info_deadline_val": "2026年11月1日（日）～ 2026年11月15日（日）",
+    "info_recruit_val": "100名募集",
+    "btn_backtop": "トップに戻る",
+    "btn_hero_apply": "応募する",
+    "btn_back": "戻る",
+    "form_main_title": "応募フォーム",
+    "guide_header": "ご応募前にご確認ください",
+    "info_notice_title": "◆ 当選連絡について",
+    "info_notice_desc": "当選者の方には2026年8月24日(月) 23:59までに support@fahrenheit213.co.jp からメールでご連絡します。受信設定をご確認ください。",
+    "info_req_title": "◆ 必要な環境",
+    "info_req_pc": "Windows PC（Mac / Linux非対応）",
+    "info_req_steam": "Steamアカウント（Steam Deckは動作未保証）",
+    "info_req_discord": "公式Discordサーバーへの参加が必須",
+    "info_stream_title": "◆ 配信・SNS投稿",
+    "info_stream_desc": "配信やSNS投稿が可能です。開発中ビルドである旨をご明記ください。",
+    "info_period_note": "※ 日時は予告なく変更になる場合があります。",
+    "form_email_label": "メールアドレス",
+    "form_email_sub": "Steamキーおよびアンケートの送付先になります。",
+    "form_discord_label": "Discordの「ユーザー名」",
+    "discord_hint_ex": "例：",
+    "discord_hint_1": "（表示名ではなくユーザー名を入力してください）",
+    "discord_hint_warn": "※ アカウントが確認できない場合、ご参加いただけません。",
+    "form_consent_label": "同意事項",
+    "form_consent_sub": "すべてに同意のうえご応募ください。",
+    "consent_1": "必要なWindows PC環境を自身で用意できます。",
+    "consent_2": "開発中のビルドであり、不具合や未調整の要素が含まれることを理解しています。",
+    "consent_3": "受け取ったSteamキーを第三者に譲渡・公開しません。",
+    "consent_4": "テスト終了後のアンケートに回答します。",
+    "consent_5": "13歳以上です（18歳未満は保護者の同意を得ています）。",
+    "btn_submit": "応募内容を送信する",
+    "form_privacy_legal": "個人情報は本テストの運営にのみ使用し、Fahrenheit213のプライバシーポリシーに準拠します。",
+    "modal_title": "応募完了しました",
+    "modal_desc": "ご応募ありがとうございます。当選された場合、テスト開始前にメールでご案内します。",
+    "modal_btn": "閉じる"
+  }
+}

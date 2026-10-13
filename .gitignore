@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# google sheets api credentials (lang.js)
+credentials.json
+token.json

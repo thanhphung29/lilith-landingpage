@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "Lilith",
+    "description": "Lilith ランディングページ"
+  },
+  "HomePage": {
+    "logoAlt": "Next.js ロゴ",
+    "vercelAlt": "Vercel ロゴマーク",
+    "title": "まずは <code>page.tsx</code> ファイルを編集してください。",
+    "description": "始め方やガイドをお探しですか？<templates>テンプレート</templates>または<learning>ラーニング</learning>センターをご覧ください。",
+    "deploy": "今すぐデプロイ",
+    "docs": "ドキュメント"
+  },
+  "LocaleSwitcher": {
+    "label": "言語",
+    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {不明}}"
+  },
+  "Landing": {
+    "hero_kicker": "클로즈 베타 테스트",
+    "hero_title": "참가자 모집!",
+    "info_deadline_title": "신청 기간",
+    "info_deadline_val": "2026년 11월 1일(일) ~ 2026년 11월 15일(일)",
+    "info_recruit_val": "100명 모집",
+    "btn_backtop": "맨 위로 돌아가기",
+    "btn_hero_apply": "신청하기",
+    "btn_back": "돌아가기",
+    "form_main_title": "신청 양식",
+    "guide_header": "신청 전 확인해 주세요",
+    "info_notice_title": "◆ 당첨 안내",
+    "info_notice_desc": "당첨자는 2026년 8월 24일 23:59(JST)까지 support@fahrenheit213.co.jp 에서 이메일로 안내받습니다. 스팸함 설정을 확인해 주세요.",
+    "info_req_title": "◆ 필수 환경",
+    "info_req_pc": "Windows PC (Mac / Linux 미지원)",
+    "info_req_steam": "Steam 계정 (Steam Deck 미보장)",
+    "info_req_discord": "공식 Discord 서버 참가 필수",
+    "info_stream_title": "◆ 스트리밍 및 SNS",
+    "info_stream_desc": "스트리밍 및 SNS 게시가 가능합니다. 개발 중인 빌드임을 명시해 주세요.",
+    "info_period_note": "※ 일정은 예고 없이 변경될 수 있습니다.",
+    "form_email_label": "이메일 주소",
+    "form_email_sub": "Steam 키 및 설문이 이 주소로 발송됩니다.",
+    "form_discord_label": "Discord '사용자명'",
+    "discord_hint_ex": "예시:",
+    "discord_hint_1": "(표시 이름이 아닌 사용자명을 입력해 주세요)",
+    "discord_hint_warn": "※ 계정을 확인할 수 없는 경우 참가가 취소됩니다.",
+    "form_consent_label": "동의 사항",
+    "form_consent_sub": "모든 항목에 동의 후 신청해 주세요:",
+    "consent_1": "필요한 Windows PC 환경을 직접 준비할 수 있습니다.",
+    "consent_2": "개발 중 빌드로 버그 및 미조정 요소가 있을 수 있음을 이해합니다.",
+    "consent_3": "받은 Steam 키를 제3자에게 양도하거나 공개하지 않습니다.",
+    "consent_4": "테스트 종료 후 설문에 응답하겠습니다.",
+    "consent_5": "만 13세 이상입니다 (18세 미만은 보호자 동의를 받았습니다).",
+    "btn_submit": "신청서 제출하기",
+    "form_privacy_legal": "개인정보는 본 테스트 운영에만 사용되며 Fahrenheit213 개인정보 보호정책을 따릅니다.",
+    "modal_title": "신청이 완료되었습니다!",
+    "modal_desc": "신청해 주셔서 감사합니다. 당첨 시 테스트 시작 전 이메일로 안내해 드립니다.",
+    "modal_btn": "닫기"
+  }
+}

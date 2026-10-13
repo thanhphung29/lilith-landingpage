@@ -1,0 +1,57 @@
+{
+  "Metadata": {
+    "title": "Lilith",
+    "description": "Lilith ランディングページ"
+  },
+  "HomePage": {
+    "logoAlt": "Next.js ロゴ",
+    "vercelAlt": "Vercel ロゴマーク",
+    "title": "まずは <code>page.tsx</code> ファイルを編集してください。",
+    "description": "始め方やガイドをお探しですか？<templates>テンプレート</templates>または<learning>ラーニング</learning>センターをご覧ください。",
+    "deploy": "今すぐデプロイ",
+    "docs": "ドキュメント"
+  },
+  "LocaleSwitcher": {
+    "label": "言語",
+    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {不明}}"
+  },
+  "Landing": {
+    "hero_kicker": "封閉測試",
+    "hero_title": "玩家招募中！",
+    "info_deadline_title": "報名期間",
+    "info_deadline_val": "2026年11月1日（日）～ 2026年11月15日（日）",
+    "info_recruit_val": "招募 100 名",
+    "btn_backtop": "返回首頁",
+    "btn_hero_apply": "立即報名",
+    "btn_back": "返回",
+    "form_main_title": "報名表單",
+    "guide_header": "報名前請確認",
+    "info_notice_title": "◆ 入選通知",
+    "info_notice_desc": "入選者將於2026年8月24日 23:59 (JST) 前收到來自 support@fahrenheit213.co.jp 的郵件，請留意垃圾郵件設定。",
+    "info_req_title": "◆ 必要環境",
+    "info_req_pc": "Windows PC（不支援 Mac / Linux）",
+    "info_req_steam": "Steam 帳號（Steam Deck 不保證穩定）",
+    "info_req_discord": "必須加入官方 Discord 伺服器",
+    "info_stream_title": "◆ 直播與社群分享",
+    "info_stream_desc": "歡迎直播與分享，請註明此為開發中版本。",
+    "info_period_note": "※ 日期可能在未事先通知下調整。",
+    "form_email_label": "電子信箱",
+    "form_email_sub": "Steam 測試序號及問卷將寄送至此信箱。",
+    "form_discord_label": "Discord「使用者名稱」",
+    "discord_hint_ex": "範例：",
+    "discord_hint_1": "（請輸入使用者名稱，而非顯示名稱）",
+    "discord_hint_warn": "※ 若無法確認帳號，將取消資格。",
+    "form_consent_label": "同意事項",
+    "form_consent_sub": "請勾選全部項目後報名：",
+    "consent_1": "我能自行準備所需的 Windows PC 環境。",
+    "consent_2": "我理解此為開發中版本，可能包含錯誤與未調整的內容。",
+    "consent_3": "我不會轉讓或公開取得的 Steam 測試序號。",
+    "consent_4": "我會在測試結束後填寫回饋問卷。",
+    "consent_5": "我年滿13歲（未滿18歲已取得監護人同意）。",
+    "btn_submit": "送出報名表單",
+    "form_privacy_legal": "個人資料僅用於本次測試運營，受 Fahrenheit213 隱私權政策約束。",
+    "modal_title": "報名已送出！",
+    "modal_desc": "感謝您的報名。若入選，序號與說明將於測試開始前寄至您的信箱。",
+    "modal_btn": "關閉"
+  }
+}
