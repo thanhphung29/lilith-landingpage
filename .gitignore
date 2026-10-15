@@ -43,3 +43,6 @@ next-env.d.ts
 # google sheets api credentials (lang.js)
 credentials.json
 token.json
+
+# claude code (agents, settings)
+/.claude/

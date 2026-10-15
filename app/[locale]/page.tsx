@@ -1,81 +1,71 @@
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
+import ButtonParticles from "@/components/ButtonParticles";
+import Footer from "@/components/Footer";
+import Logo from "@/components/Logo";
+import { Link } from "@/i18n/navigation";
 
 export default async function Home() {
-  const t = await getTranslations("HomePage");
+  const t = await getTranslations("Landing");
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <div className="flex w-full items-center justify-between">
-          <Image
-            className="dark:invert h-5 w-[100px]"
-            src="/next.svg"
-            alt={t("logoAlt")}
-            width={100}
-            height={20}
-            priority
-          />
-          <LocaleSwitcher />
-        </div>
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            {t.rich("title", {
-              code: (chunks) => (
-                <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-                  {chunks}
-                </code>
-              ),
-            })}
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            {t.rich("description", {
-              templates: (chunks) => (
-                <a
-                  href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                  className="font-medium text-zinc-950 dark:text-zinc-50"
-                >
-                  {chunks}
-                </a>
-              ),
-              learning: (chunks) => (
-                <a
-                  href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                  className="font-medium text-zinc-950 dark:text-zinc-50"
-                >
-                  {chunks}
-                </a>
-              ),
-            })}
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt={t("vercelAlt")}
-              width={16}
-              height={14}
+    <>
+      <main className="flex flex-1 flex-col pt-16">
+        <section className="relative z-10 flex flex-1 items-center overflow-hidden bg-gothic-deep">
+          {/* Hero banner */}
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <picture>
+              <source media="(max-width: 767px)" srcSet="/img/hero_banner_mobile.png" />
+              { }
+              <img
+                src="/img/hero_banner.png"
+                alt=""
+                className="absolute inset-0 h-full w-full select-none object-cover object-right-top"
+              />
+            </picture>
+            <div className="absolute inset-0 bg-gradient-to-r from-gothic-deep/85 via-gothic-deep/40 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-gothic-deep/70 to-transparent" />
+          </div>
+
+          <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-6 py-8 text-center sm:px-10 lg:items-start lg:px-16 lg:text-left">
+            <Logo
+              priority
+              sizes="(min-width: 768px) 448px, (min-width: 640px) 384px, 256px"
+              className="mb-6 h-auto w-64 sm:w-96 md:w-[28rem]"
+              style={{ filter: "drop-shadow(0 4px 24px rgba(0,0,0,.8))" }}
             />
-            {t("deploy")}
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("docs")}
-          </a>
-        </div>
+            <p className="mb-1 text-lg font-bold tracking-widest text-gothic-gold sm:text-2xl [text-shadow:0_2px_10px_rgba(0,0,0,.9)]">
+              {t("hero_kicker")}
+            </p>
+            <h1 className="mb-8 text-4xl font-black tracking-wide text-gothic-ivory sm:text-6xl [text-shadow:0_2px_14px_rgba(0,0,0,.9)]">
+              {t("hero_title")}
+            </h1>
+
+            <div className="mb-8">
+              <p className="mb-2 inline-block bg-gothic-gold px-3 py-0.5 text-xs font-bold tracking-widest text-gothic-deep sm:text-sm">
+                {t("info_deadline_title")}
+              </p>
+              <p
+                className="whitespace-nowrap font-bold text-gothic-ivory [text-shadow:0_2px_10px_rgba(0,0,0,.9)]"
+                style={{ fontSize: "clamp(.75rem, calc((100vw - 3rem) / 23), 1.5rem)" }}
+              >
+                {t("info_deadline_val")}
+              </p>
+            </div>
+
+            <div className="btn-wrap">
+              <div className="btn-glow" aria-hidden="true" />
+              <ButtonParticles />
+              <Link
+                href="/apply"
+                className="btn-img flex items-center justify-center gap-3 text-lg font-black uppercase tracking-wider"
+              >
+                {t("btn_hero_apply")}
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }

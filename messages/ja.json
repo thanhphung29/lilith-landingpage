@@ -12,10 +12,11 @@
     "docs": "ドキュメント"
   },
   "LocaleSwitcher": {
-    "label": "言語",
-    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {不明}}"
+    "label": "言語"
   },
   "Landing": {
+    "title_game": "",
+    "description_game": "",
     "hero_kicker": "クローズβテスト",
     "hero_title": "参加者募集！",
     "info_deadline_title": "応募期間",
@@ -31,7 +32,7 @@
     "info_req_title": "◆ 必要な環境",
     "info_req_pc": "Windows PC（Mac / Linux非対応）",
     "info_req_steam": "Steamアカウント（Steam Deckは動作未保証）",
-    "info_req_discord": "公式Discordサーバーへの参加が必須",
+    "info_req_discord": "『ルナパルス』公式Discordサーバーへの参加が必須",
     "info_stream_title": "◆ 配信・SNS投稿",
     "info_stream_desc": "配信やSNS投稿が可能です。開発中ビルドである旨をご明記ください。",
     "info_period_note": "※ 日時は予告なく変更になる場合があります。",
@@ -52,6 +53,11 @@
     "form_privacy_legal": "個人情報は本テストの運営にのみ使用し、Fahrenheit213のプライバシーポリシーに準拠します。",
     "modal_title": "応募完了しました",
     "modal_desc": "ご応募ありがとうございます。当選された場合、テスト開始前にメールでご案内します。",
-    "modal_btn": "閉じる"
+    "modal_btn": "閉じる",
+    "err_email_required": "Please enter your email address.",
+    "err_email_invalid": "Please enter a valid email address.",
+    "err_discord_required": "Please enter your Discord user name.",
+    "err_discord_invalid": "Invalid Discord user name: use 6–32 letters, numbers, underscores or periods (no two periods in a row).",
+    "err_consent_required": "Please check all agreements to apply."
   }
 }

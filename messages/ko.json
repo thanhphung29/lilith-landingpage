@@ -12,10 +12,11 @@
     "docs": "ドキュメント"
   },
   "LocaleSwitcher": {
-    "label": "言語",
-    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {不明}}"
+    "label": "言語"
   },
   "Landing": {
+    "title_game": "",
+    "description_game": "",
     "hero_kicker": "클로즈 베타 테스트",
     "hero_title": "참가자 모집!",
     "info_deadline_title": "신청 기간",
@@ -52,6 +53,11 @@
     "form_privacy_legal": "개인정보는 본 테스트 운영에만 사용되며 Fahrenheit213 개인정보 보호정책을 따릅니다.",
     "modal_title": "신청이 완료되었습니다!",
     "modal_desc": "신청해 주셔서 감사합니다. 당첨 시 테스트 시작 전 이메일로 안내해 드립니다.",
-    "modal_btn": "닫기"
+    "modal_btn": "닫기",
+    "err_email_required": "Please enter your email address.",
+    "err_email_invalid": "Please enter a valid email address.",
+    "err_discord_required": "Please enter your Discord user name.",
+    "err_discord_invalid": "Invalid Discord user name: use 6–32 letters, numbers, underscores or periods (no two periods in a row).",
+    "err_consent_required": "Please check all agreements to apply."
   }
 }

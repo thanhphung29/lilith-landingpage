@@ -15,8 +15,12 @@ const SPREADSHEET_ID = '13rUl1b_DXEL1qioHRqiCxyIfnFn-RenHZuw_zyCYTUg';
 const RANGE = 'Landingpage-localization!A1:Z';
 const NAMESPACE = 'Landing';
 const MESSAGES_DIR = 'messages';
+// Row with this key holds each language's own name (autonym). It is not UI copy, so it is
+// written to LOCALE_NAMES_FILE (used by the language select) instead of the messages.
+const LANGUAGE_NAME_KEY = 'language_name';
+const LOCALE_NAMES_FILE = 'i18n/locale-names.json';
 // Keep in sync with `defaultLocale` in i18n/routing.ts. Empty cells fall back to it.
-const DEFAULT_LOCALE = 'ja';
+const DEFAULT_LOCALE = 'en';
 
 // Header (row 1) language name → locale code used by the app (i18n/routing.ts)
 const LANGUAGES = {
@@ -144,9 +148,17 @@ function loadJSON(rows) {
   });
 
   let keyCount = 0;
+  const localeNames = {};
   data.forEach((row) => {
     const key = (row[0] || '').trim();
     if (!key) return;
+    if (key === LANGUAGE_NAME_KEY) {
+      // No fallback: a name is only meaningful in its own language
+      columns.forEach(({ locale, index }) => {
+        localeNames[locale] = (row[index] || '').trim();
+      });
+      return;
+    }
     keyCount++;
     columns.forEach(({ locale, index }) => {
       let value = (row[index] || '').trim();
@@ -179,6 +191,16 @@ function loadJSON(rows) {
     existing[NAMESPACE] = messages[locale];
     fs.writeFileSync(`${MESSAGES_DIR}/${locale}.json`, JSON.stringify(existing, null, 2) + '\n');
   });
+
+  const noName = columns.filter(({ locale }) => !localeNames[locale]).map((c) => c.locale);
+  if (!Object.keys(localeNames).length) {
+    console.warn(`⚠ Row "${LANGUAGE_NAME_KEY}" not found, ${LOCALE_NAMES_FILE} not written.`);
+  } else {
+    // Same order as the sheet columns, so the select matches the sheet
+    const ordered = Object.fromEntries(columns.map(({ locale }) => [locale, localeNames[locale] || locale]));
+    fs.writeFileSync(LOCALE_NAMES_FILE, JSON.stringify(ordered, null, 2) + '\n');
+    if (noName.length) console.warn(`⚠ No ${LANGUAGE_NAME_KEY} for: ${noName.join(', ')} (using the locale code)`);
+  }
 
   console.log(`✓ ${keyCount} keys → ${columns.map((c) => c.locale).join(', ')}`);
   columns.forEach(({ locale }) => {

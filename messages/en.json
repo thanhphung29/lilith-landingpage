@@ -12,10 +12,11 @@
     "docs": "Documentation"
   },
   "LocaleSwitcher": {
-    "label": "Language",
-    "locale": "{locale, select, ja {日本語} en {English} zh_TW {繁體中文} zh_CN {简体中文} ko {한국어} vi {Tiếng Việt} th {ไทย} id {Bahasa Indonesia} ru {Русский} es {Español} pt_BR {Português (Brasil)} de {Deutsch} fr {Français} it {Italiano} pl {Polski} other {Unknown}}"
+    "label": "Language"
   },
   "Landing": {
+    "title_game": "",
+    "description_game": "",
     "hero_kicker": "Closed Beta Test",
     "hero_title": "Testers Wanted!",
     "info_deadline_title": "Application Period",
@@ -52,6 +53,11 @@
     "form_privacy_legal": "Personal data is used only for playtest operation, under the Fahrenheit213 privacy policy.",
     "modal_title": "Application Received!",
     "modal_desc": "Thank you for applying. If selected, your key and instructions will be emailed before the test begins.",
-    "modal_btn": "Close"
+    "modal_btn": "Close",
+    "err_email_required": "Please enter your email address.",
+    "err_email_invalid": "Please enter a valid email address.",
+    "err_discord_required": "Please enter your Discord user name.",
+    "err_discord_invalid": "Invalid Discord user name: use 6–32 letters, numbers, underscores or periods (no two periods in a row).",
+    "err_consent_required": "Please check all agreements to apply."
   }
 }

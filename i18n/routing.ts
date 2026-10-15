@@ -5,25 +5,26 @@ import { defineRouting } from "next-intl/routing";
 // 2. Browser `Accept-Language` header
 // 3. `defaultLocale` when none of the browser's languages are supported
 export const routing = defineRouting({
-  // Keep in sync with LANGUAGES in lang.js
+  // Keep in sync with LANGUAGES in lang.js. Order = column order of the Google Sheet
+  // (also the order of the language select).
   locales: [
-    "ja",
     "en",
+    "ja",
     "zh-TW",
-    "zh-CN",
     "ko",
+    "zh-CN",
     "vi",
-    "th",
-    "id",
     "ru",
     "es",
     "pt-BR",
     "de",
     "fr",
-    "it",
     "pl",
+    "th",
+    "it",
+    "id",
   ],
-  defaultLocale: "ja",
+  defaultLocale: "en",
   localeCookie: {
     // Persist the user's choice instead of a session-only cookie
     maxAge: 60 * 60 * 24 * 365,
