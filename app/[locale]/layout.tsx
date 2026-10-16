@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import {
   Cinzel,
-  Noto_Sans_JP,
-  Noto_Sans_KR,
-  Noto_Sans_SC,
-  Noto_Sans_TC,
-  Noto_Sans_Thai,
+  Noto_Serif,
+  Noto_Serif_JP,
+  Noto_Serif_KR,
+  Noto_Serif_SC,
+  Noto_Serif_TC,
+  Noto_Serif_Thai,
   Share_Tech_Mono,
 } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -16,7 +17,7 @@ import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-const notoSansJP = Noto_Sans_JP({
+const notoSerifJP = Noto_Serif_JP({
   variable: "--font-noto-jp",
   subsets: ["latin"],
   weight: ["400", "500", "700", "900"],
@@ -35,17 +36,20 @@ const shareTechMono = Share_Tech_Mono({
   weight: "400",
 });
 
-// Scripts Noto Sans JP lacks, exposed as --font-locale
-const notoSansTC = Noto_Sans_TC({ variable: "--font-locale", subsets: ["latin"], preload: false });
-const notoSansSC = Noto_Sans_SC({ variable: "--font-locale", subsets: ["latin"], preload: false });
-const notoSansKR = Noto_Sans_KR({ variable: "--font-locale", subsets: ["latin"], preload: false });
-// const notoSansThai = Noto_Sans_Thai({ variable: "--font-locale", subsets: ["thai", "latin"], preload: false });
+// Scripts Noto Serif JP lacks, exposed as --font-locale
+const notoSerifTC = Noto_Serif_TC({ variable: "--font-locale", subsets: ["latin"], preload: false });
+const notoSerifSC = Noto_Serif_SC({ variable: "--font-locale", subsets: ["latin"], preload: false });
+const notoSerifKR = Noto_Serif_KR({ variable: "--font-locale", subsets: ["latin"], preload: false });
+const notoSerifThai = Noto_Serif_Thai({ variable: "--font-locale", subsets: ["thai", "latin"], preload: false });
+// latin-ext covers Polish letters (ą ć ę ł ń ó ś ź ż)
+const notoSerif = Noto_Serif({ variable: "--font-locale", subsets: ["latin", "latin-ext"], preload: false });
 
 const localeFonts: Partial<Record<Locale, string>> = {
-  "zh-TW": notoSansTC.variable,
-  "zh-CN": notoSansSC.variable,
-  ko: notoSansKR.variable,
-  // th: notoSansThai.variable,
+  "zh-TW": notoSerifTC.variable,
+  "zh-CN": notoSerifSC.variable,
+  ko: notoSerifKR.variable,
+  th: notoSerifThai.variable,
+  pl: notoSerif.variable,
 };
 
 export function generateStaticParams() {
@@ -80,7 +84,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
 
   const fontClasses = [
-    notoSansJP.variable,
+    notoSerifJP.variable,
     cinzel.variable,
     shareTechMono.variable,
     localeFonts[locale] ?? "",

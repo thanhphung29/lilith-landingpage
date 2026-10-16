@@ -11,7 +11,7 @@ export default function Header() {
           <Logo className="mt-1 block h-10 w-auto shrink-0 sm:h-12" sizes="(min-width: 640px) 115px, 96px" />
         </Link>
         <div className="flex items-center gap-4 sm:gap-6">
-          <div className="flex items-center gap-3 text-lg text-gothic-gold sm:gap-5 sm:text-xl">
+          <div className="flex items-center gap-3 text-lg leading-none text-gothic-gold sm:gap-5 sm:text-xl">
             {SOCIALS.map(({ label, href, icon }) => (
               <a
                 key={label}
@@ -19,7 +19,7 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="transition-colors hover:text-gothic-ivory"
+                className="flex h-9 items-center transition-colors hover:text-gothic-ivory"
               >
                 <i className={`fa-brands ${icon}`} aria-hidden="true" />
               </a>
