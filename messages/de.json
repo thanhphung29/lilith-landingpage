@@ -58,6 +58,9 @@
     "err_email_invalid": "Please enter a valid email address.",
     "err_discord_required": "Please enter your Discord user name.",
     "err_discord_invalid": "Invalid Discord user name: use 6–32 letters, numbers, underscores or periods (no two periods in a row).",
-    "err_consent_required": "Please check all agreements to apply."
+    "err_consent_required": "Please check all agreements to apply.",
+    "err_captcha_required": "Please complete the verification.",
+    "err_captcha_failed": "Verification failed. Please try again.",
+    "err_submit_failed": "Could not submit your application. Please try again later."
   }
 }

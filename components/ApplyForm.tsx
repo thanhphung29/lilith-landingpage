@@ -3,17 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
+import Turnstile from "./Turnstile";
 
 const CONSENTS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5"] as const;
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
 const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-lg";
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-// Discord usernames: 6-32 chars of a-z, 0-9, "_" and "."; no two "." in a row
-const DISCORD_RE = /^(?!.*\.\.)[a-z0-9_.]{6,32}$/;
-
-type Errors = { email?: string; discord?: string; consent?: string };
+type Errors = { email?: string; discord?: string; consent?: string; captcha?: string };
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
@@ -34,6 +32,9 @@ export default function ApplyForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [done, setDone] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
+  const [token, setToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
   // Next keeps this page's state alive when navigating away (it is only hidden), so close the
   // popup when leaving. Effects are cleaned up when the page is hidden.
@@ -50,11 +51,11 @@ export default function ApplyForm() {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const email = String(data.get("email") ?? "").trim();
-    const discord = String(data.get("discord") ?? "").trim().replace(/^@/, "").toLowerCase();
+    const discord = normalizeDiscord(String(data.get("discord") ?? ""));
 
     const next: Errors = {};
     if (!email) next.email = t("err_email_required");
@@ -62,6 +63,7 @@ export default function ApplyForm() {
     if (!discord) next.discord = t("err_discord_required");
     else if (!DISCORD_RE.test(discord)) next.discord = t("err_discord_invalid");
     if (!CONSENTS.every((key) => data.get(key))) next.consent = t("err_consent_required");
+    if (!token) next.captcha = t("err_captcha_required");
 
     setErrors(next);
     if (Object.keys(next).length > 0) {
@@ -69,8 +71,29 @@ export default function ApplyForm() {
       formRef.current?.querySelector<HTMLElement>(`[id="${target}"]`)?.focus();
       return;
     }
-    // TODO: send the application to the backend
-    setDone(true);
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, discord, token }),
+      });
+      const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
+      if (res.ok && result.ok) {
+        setDone(true);
+        return;
+      }
+      setErrors({
+        captcha: t(result.error === "captcha_failed" ? "err_captcha_failed" : "err_submit_failed"),
+      });
+    } catch {
+      setErrors({ captcha: t("err_submit_failed") });
+    } finally {
+      setSubmitting(false);
+      // The token is single use: get a fresh one
+      setCaptchaKey((k) => k + 1);
+    }
   }
 
   function closeModal() {
@@ -167,9 +190,20 @@ export default function ApplyForm() {
         </fieldset>
 
         <div className="flex flex-col items-center pt-2">
+          <div className="mb-5 flex flex-col items-center">
+            <Turnstile
+              resetKey={captchaKey}
+              onToken={(value) => {
+                setToken(value);
+                if (value) clearError("captcha");
+              }}
+            />
+            {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
+          </div>
           <button
             type="submit"
-            className="btn-img flex cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
+            disabled={submitting}
+            className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
           >
             <i className="fa-solid fa-paper-plane" aria-hidden="true" />
             <span>{t("btn_submit")}</span>
