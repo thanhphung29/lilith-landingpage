@@ -1,9 +1,11 @@
+import { appendApplication } from "@/lib/google-sheets";
+import { routing } from "@/i18n/routing";
 import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 export async function POST(request: Request) {
-  let body: { email?: unknown; discord?: unknown; token?: unknown };
+  let body: { email?: unknown; discord?: unknown; token?: unknown; locale?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -13,6 +15,7 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.trim() : "";
   const discord = typeof body.discord === "string" ? normalizeDiscord(body.discord) : "";
   const token = typeof body.token === "string" ? body.token : "";
+  const locale = routing.locales.find((l) => l === body.locale) ?? routing.defaultLocale;
 
   if (!EMAIL_RE.test(email) || !DISCORD_RE.test(discord)) {
     return Response.json({ ok: false, error: "invalid_request" }, { status: 400 });
@@ -45,6 +48,12 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "captcha_failed" }, { status: 400 });
   }
 
-  // TODO: store the application (email, discord)
+  try {
+    await appendApplication({ email, discord, locale });
+  } catch (err) {
+    console.error("Failed to write the application to Google Sheets", err);
+    return Response.json({ ok: false, error: "server_error" }, { status: 500 });
+  }
+
   return Response.json({ ok: true });
 }

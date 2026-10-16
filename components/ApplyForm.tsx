@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
 import Turnstile from "./Turnstile";
@@ -28,6 +28,7 @@ function FieldError({ id, message }: { id: string; message: string }) {
 
 export default function ApplyForm() {
   const t = useTranslations("Landing");
+  const locale = useLocale();
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [done, setDone] = useState(false);
@@ -77,7 +78,7 @@ export default function ApplyForm() {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, discord, token }),
+        body: JSON.stringify({ email, discord, token, locale }),
       });
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
@@ -190,14 +191,17 @@ export default function ApplyForm() {
         </fieldset>
 
         <div className="flex flex-col items-center pt-2">
-          <div className="mb-5 flex flex-col items-center">
-            <Turnstile
-              resetKey={captchaKey}
-              onToken={(value) => {
-                setToken(value);
-                if (value) clearError("captcha");
-              }}
-            />
+          <div className={`flex flex-col items-center ${token ? "" : "mb-5"}`}>
+            {/* Hidden (not unmounted) once verified, so it reappears if the token expires */}
+            <div className={token ? "hidden" : undefined}>
+              <Turnstile
+                resetKey={captchaKey}
+                onToken={(value) => {
+                  setToken(value);
+                  if (value) clearError("captcha");
+                }}
+              />
+            </div>
             {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
           </div>
           <button
