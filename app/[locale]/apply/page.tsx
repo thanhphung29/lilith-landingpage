@@ -1,14 +1,8 @@
-import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import ApplyForm from "@/components/ApplyForm";
 import BackToTop from "@/components/BackToTop";
 import Footer from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("Landing");
-  return { title: t("form_main_title") };
-}
 
 export default async function ApplyPage() {
   const t = await getTranslations("Landing");
