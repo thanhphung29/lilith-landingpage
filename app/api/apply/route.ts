@@ -5,6 +5,7 @@ import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 export async function POST(request: Request) {
+
   let body: { email?: unknown; discord?: unknown; token?: unknown; locale?: unknown };
   try {
     body = await request.json();
