@@ -62,12 +62,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({
     locale: hasLocale(routing.locales, locale) ? locale : routing.defaultLocale,
-    namespace: "Metadata",
+    namespace: "Landing",
   });
 
   return {
-    title: t("title"),
-    description: t("description"),
+    title: t("title_game"),
+    description: t("description_game"),
     alternates: {
       languages: Object.fromEntries(
         routing.locales.map((l) => [l, `/${l}`]),
