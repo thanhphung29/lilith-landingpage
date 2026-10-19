@@ -60,7 +60,6 @@ export async function appendApplication({ email, discord, locale }: Application)
   const row = ["=ROW()-1", text(email), text(discord), text(locale), text(createdDate)];
 
   if (!sheetGid) return appendRow(client, spreadsheetId, sheetName as string, row);
-  console.log("sheetGid", sheetGid);
   try {
     return await appendRow(client, spreadsheetId, await resolveSheetName(client, spreadsheetId, sheetGid, false), row);
   } catch {
