@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import ApplyForm from "@/components/ApplyForm";
-import BackToTop from "@/components/BackToTop";
 import Footer from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
 
@@ -11,16 +10,8 @@ export default async function ApplyPage() {
     <>
       <main className="relative z-10 flex-1 px-4 pt-28 pb-20 sm:px-6">
         <div className="mx-auto max-w-3xl">
-          <Link
-            href="/"
-            className="btn-back-img mb-6 inline-flex items-center justify-center gap-1.5 text-xs"
-          >
-            <i className="fa-solid fa-caret-left" aria-hidden="true" />
-            <span>{t("btn_back")}</span>
-          </Link>
-
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl">
+            <h1 className="mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl">
               {t("form_main_title")}
             </h1>
             <div className="gold-filigree-bar mx-auto mt-3 w-40" />
@@ -62,7 +53,13 @@ export default async function ApplyPage() {
           <ApplyForm />
 
           <div className="mt-8 flex justify-center">
-            <BackToTop label={t("btn_backtop")} />
+            <Link
+              href="/"
+              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 text-sm font-bold tracking-wider whitespace-nowrap"
+            >
+              <i className="fa-solid fa-circle-left" aria-hidden="true" />
+              <span>{t("btn_back_to_previous")}</span>
+            </Link>
           </div>
         </div>
       </main>

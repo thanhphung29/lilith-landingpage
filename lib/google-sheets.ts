@@ -1,6 +1,6 @@
 import { JWT } from "google-auth-library";
 
-type Application = { email: string; discord: string; locale: string };
+type Application = { email: string; discord: string; wishlist: "yes" | "no"; locale: string };
 
 function getConfig() {
   const spreadsheetId = process.env.SPREADSHEET_ID;
@@ -37,7 +37,7 @@ async function resolveSheetName(client: JWT, spreadsheetId: string, gid: string,
 }
 
 async function appendRow(client: JWT, spreadsheetId: string, sheetName: string, row: string[]) {
-  const range = encodeURIComponent(`'${sheetName}'!A:E`);
+  const range = encodeURIComponent(`'${sheetName}'!A:F`);
   await client.request({
     url:
       `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append` +
@@ -47,9 +47,9 @@ async function appendRow(client: JWT, spreadsheetId: string, sheetName: string, 
   });
 }
 
-// Appends one row: STT | Email | Discord | Language | CreatedDate (UTC, "yyyy-MM-dd HH:mm:ss").
+// Appends one row: STT | Email | Discord | Added Tsurugihime (Yes/No) | Language | CreatedDate (UTC, "yyyy-MM-dd HH:mm:ss").
 // STT is the formula =ROW()-1 (row 1 is the header), so it always follows the row position.
-export async function appendApplication({ email, discord, locale }: Application) {
+export async function appendApplication({ email, discord, wishlist, locale }: Application) {
   const { spreadsheetId, sheetGid, sheetName } = getConfig();
   const client = getClient();
   const createdDate = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -57,7 +57,14 @@ export async function appendApplication({ email, discord, locale }: Application)
   // USER_ENTERED is needed for the formula, so the leading apostrophe on the other cells keeps
   // them as plain text: nothing the user typed can run as a formula or get turned into a number/date
   const text = (value: string) => `'${value}`;
-  const row = ["=ROW()-1", text(email), text(discord), text(locale), text(createdDate)];
+  const row = [
+    "=ROW()-1",
+    text(email),
+    text(discord),
+    text(wishlist === "yes" ? "Yes" : "No"),
+    text(locale),
+    text(createdDate),
+  ];
 
   if (!sheetGid) return appendRow(client, spreadsheetId, sheetName as string, row);
   try {

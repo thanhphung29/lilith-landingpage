@@ -20,7 +20,7 @@ export default function Footer({ showSocial = false }: { showSocial?: boolean })
         </div>
       )}
       <p className="font-cinzel tracking-wider text-gothic-ivory/80">
-        <span className="inline-block">©2026 Fahrenheit 213 Inc. and Gianty Inc.</span>{" "}
+        <span className="inline-block">©2026 Fahrenheit 213 Inc.</span>{" "}
         <span className="inline-block">All rights reserved. / LUNAR PULSE PROJECT</span>
       </p>
     </footer>

@@ -19,11 +19,12 @@
     "description_game": "\"LUNAR PULSE\" adalah game kartu roguelite pemain tunggal. Pertempuran singkat selesai dalam 60 detik. Rasakan ketegangan \"game maut\" di mana satu langkah salah berakibat fatal. Fitur utamanya adalah sistem pertarungan simultan saat kartu kedua bên terbuka.",
     "hero_kicker": "Closed Beta Test",
     "hero_title": "Testers Wanted!",
+    "hero_title_close": "Applications are now closed.",
     "info_deadline_title": "Application Period",
     "info_deadline_val": "Nov 1, 2026 (Sun) – Nov 15, 2026 (Sun)",
-    "info_recruit_val": "100 testers wanted",
-    "btn_backtop": "Back to Top",
+    "btn_back_to_previous": "Back to previous page",
     "btn_hero_apply": "Apply",
+    "btn_hero_close": "End",
     "btn_back": "Back",
     "form_main_title": "Application Form",
     "guide_header": "Before you apply",
@@ -39,6 +40,7 @@
     "form_email_label": "Email Address",
     "form_email_sub": "Your Steam Playtest key and surveys will be sent to this address.",
     "form_discord_label": "Discord \"User Name\"",
+    "form_discord_sub": "",
     "discord_hint_ex": "Example:",
     "discord_hint_1": "(Enter your unique user name, not your display name.)",
     "discord_hint_warn": "※ If the account cannot be confirmed, you will be disqualified.",
@@ -61,6 +63,10 @@
     "err_consent_required": "Please check all agreements to apply.",
     "err_captcha_required": "Please complete the verification.",
     "err_captcha_failed": "Verification failed. Please try again.",
-    "err_submit_failed": "Could not submit your application. Please try again later."
+    "err_submit_failed": "Could not submit your application. Please try again later.",
+    "form_wishlist_label": "Have you added Tsurugi Hime to your Steam wishlist?",
+    "wishlist_yes": "Yes, I have",
+    "wishlist_no": "Not yet (I will add it)",
+    "err_wishlist_required": "Please choose an option."
   }
 }

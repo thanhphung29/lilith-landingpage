@@ -56,6 +56,28 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Needed to turn the relative thumbnail path below into the absolute URL social sites require
+const SITE_URL = "https://lilith-landingpage.vercel.app";
+
+// Open Graph wants language_TERRITORY
+const OG_LOCALES: Record<Locale, string> = {
+  en: "en_US",
+  ja: "ja_JP",
+  "zh-TW": "zh_TW",
+  ko: "ko_KR",
+  "zh-CN": "zh_CN",
+  vi: "vi_VN",
+  ru: "ru_RU",
+  es: "es_ES",
+  "pt-BR": "pt_BR",
+  de: "de_DE",
+  fr: "fr_FR",
+  pl: "pl_PL",
+  th: "th_TH",
+  it: "it_IT",
+  id: "id_ID",
+};
+
 export async function generateMetadata({
   params,
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
@@ -65,9 +87,24 @@ export async function generateMetadata({
     namespace: "Landing",
   });
 
+  const title = t("title_game");
+  const description = t("description_game");
+  const thumbnail = { url: "/img/thumb-op.png", width: 1200, height: 630, alt: title };
+
   return {
-    title: t("title_game"),
-    description: t("description_game"),
+    metadataBase: new URL(SITE_URL),
+    title,
+    description,
+    openGraph: { type: "website", title, description, siteName: title, locale: OG_LOCALES[locale as Locale] ?? OG_LOCALES.en, images: [thumbnail] },
+    twitter: { card: "summary_large_image", title, description, images: [thumbnail] },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    },
     alternates: {
       languages: Object.fromEntries(
         routing.locales.map((l) => [l, `/${l}`]),

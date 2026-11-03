@@ -11,7 +11,9 @@ const CONSENTS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
 const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-lg";
-type Errors = { email?: string; discord?: string; consent?: string; captcha?: string };
+type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
+
+const WISHLIST_URL = "https://store.steampowered.com/app/2220860/";
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
@@ -36,6 +38,8 @@ export default function ApplyForm() {
   const [token, setToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  // Every field filled in and every agreement ticked (format is still checked on submit)
+  const [filled, setFilled] = useState(false);
 
   // Next keeps this page's state alive when navigating away (it is only hidden), so close the
   // popup when leaving. Effects are cleaned up when the page is hidden.
@@ -47,6 +51,17 @@ export default function ApplyForm() {
       form?.reset();
     };
   }, []);
+
+  function checkFilled() {
+    if (!formRef.current) return;
+    const data = new FormData(formRef.current);
+    setFilled(
+      String(data.get("email") ?? "").trim() !== "" &&
+        String(data.get("discord") ?? "").trim() !== "" &&
+        !!data.get("wishlist") &&
+        CONSENTS.every((key) => data.get(key)),
+    );
+  }
 
   function clearError(field: keyof Errors) {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
@@ -63,12 +78,14 @@ export default function ApplyForm() {
     else if (!EMAIL_RE.test(email)) next.email = t("err_email_invalid");
     if (!discord) next.discord = t("err_discord_required");
     else if (!DISCORD_RE.test(discord)) next.discord = t("err_discord_invalid");
+    const wishlist = String(data.get("wishlist") ?? "");
+    if (wishlist !== "yes" && wishlist !== "no") next.wishlist = t("err_wishlist_required");
     if (!CONSENTS.every((key) => data.get(key))) next.consent = t("err_consent_required");
     if (!token) next.captcha = t("err_captcha_required");
 
     setErrors(next);
     if (Object.keys(next).length > 0) {
-      const target = next.email ? "applicantEmail" : next.discord ? "discordHandle" : "consent_1";
+      const target = next.email ? "applicantEmail" : next.discord ? "discordHandle" : next.wishlist ? "wishlist_yes" : "consent_1";
       formRef.current?.querySelector<HTMLElement>(`[id="${target}"]`)?.focus();
       return;
     }
@@ -78,7 +95,7 @@ export default function ApplyForm() {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, discord, token, locale }),
+        body: JSON.stringify({ email, discord, wishlist, token, locale }),
       });
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
@@ -105,7 +122,14 @@ export default function ApplyForm() {
 
   return (
     <>
-      <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-6">
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        onChange={checkFilled}
+        onReset={() => setFilled(false)}
+        noValidate
+        className="space-y-6"
+      >
         <div className={CARD}>
           <label htmlFor="applicantEmail" className={LABEL}>
             {t("form_email_label")} <span className="text-gothic-gold">*</span>
@@ -134,6 +158,7 @@ export default function ApplyForm() {
           <label htmlFor="discordHandle" className={LABEL}>
             {t("form_discord_label")} <span className="text-gothic-gold">*</span>
           </label>
+          {t("form_discord_sub") && <p className="mb-3 text-sm text-gothic-ivory">{t("form_discord_sub")}</p>}
           <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 font-mono text-xs text-gothic-ivory">
             <p>
               <strong>{t("discord_hint_ex")}</strong>{" "}
@@ -160,6 +185,43 @@ export default function ApplyForm() {
           </div>
           {errors.discord && <FieldError id="discord-error" message={errors.discord} />}
         </div>
+
+        <fieldset
+          className={`${CARD} ${errors.wishlist ? "border-red-500/80" : ""}`}
+          aria-describedby={errors.wishlist ? "wishlist-error" : undefined}
+        >
+          <legend className="sr-only">{t("form_wishlist_label")}</legend>
+          <p className={LABEL} aria-hidden="true">
+            {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
+          </p>
+          <a
+            href={WISHLIST_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-4 block break-all text-sm text-gothic-gold underline hover:text-gothic-ivory"
+          >
+            {WISHLIST_URL}
+          </a>
+          <div className="space-y-3">
+            {(["yes", "no"] as const).map((value) => (
+              <label
+                key={value}
+                className="flex cursor-pointer items-start gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+              >
+                <input
+                  type="radio"
+                  id={`wishlist_${value}`}
+                  name="wishlist"
+                  value={value}
+                  onChange={() => clearError("wishlist")}
+                  className="mt-1 h-4 w-4 accent-gothic-gold"
+                />
+                <span className="text-sm text-gothic-body sm:text-base">{t(`wishlist_${value}`)}</span>
+              </label>
+            ))}
+          </div>
+          {errors.wishlist && <FieldError id="wishlist-error" message={errors.wishlist} />}
+        </fieldset>
 
         <fieldset
           className={`${CARD} ${errors.consent ? "border-red-500/80" : ""}`}
@@ -206,13 +268,12 @@ export default function ApplyForm() {
           </div>
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || !filled || !token}
             className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
           >
             <i className="fa-solid fa-paper-plane" aria-hidden="true" />
             <span>{t("btn_submit")}</span>
           </button>
-          <p className="mt-3 text-center text-xs text-gothic-ivory/70">{t("form_privacy_legal")}</p>
         </div>
       </form>
 

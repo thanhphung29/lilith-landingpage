@@ -19,7 +19,7 @@ export default async function Home() {
               <img
                 src="/img/hero_banner.png"
                 alt=""
-                className="absolute inset-0 h-full w-full select-none object-cover object-right-top"
+                className="absolute inset-0 h-full w-full select-none object-cover object-top md:object-right-top"
               />
             </picture>
             <div className="absolute inset-0 bg-gradient-to-r from-gothic-deep/85 via-gothic-deep/40 to-transparent" />

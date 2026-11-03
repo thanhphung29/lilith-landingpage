@@ -19,11 +19,12 @@
     "description_game": "《冥月悸動》是一款單人 Roguelite 卡牌遊戲。60秒內即可分出勝負的超短期決戰。一招一式皆可能招致死亡，讓玩家體驗如同「高難度遊戲」般的緊張感。其特色在於雙方手牌完全公開且同時出牌的遊戲系統。",
     "hero_kicker": "封閉測試",
     "hero_title": "玩家招募中！",
+    "hero_title_close": "Applications are now closed.",
     "info_deadline_title": "報名期間",
     "info_deadline_val": "2026年11月1日（日）～ 2026年11月15日（日）",
-    "info_recruit_val": "招募 100 名",
-    "btn_backtop": "返回首頁",
+    "btn_back_to_previous": "Back to previous page",
     "btn_hero_apply": "立即報名",
+    "btn_hero_close": "End",
     "btn_back": "返回",
     "form_main_title": "報名表單",
     "guide_header": "報名前請確認",
@@ -39,6 +40,7 @@
     "form_email_label": "電子信箱",
     "form_email_sub": "Steam 測試序號及問卷將寄送至此信箱。",
     "form_discord_label": "Discord「使用者名稱」",
+    "form_discord_sub": "",
     "discord_hint_ex": "範例：",
     "discord_hint_1": "（請輸入使用者名稱，而非顯示名稱）",
     "discord_hint_warn": "※ 若無法確認帳號，將取消資格。",
@@ -61,6 +63,10 @@
     "err_consent_required": "Please check all agreements to apply.",
     "err_captcha_required": "Please complete the verification.",
     "err_captcha_failed": "Verification failed. Please try again.",
-    "err_submit_failed": "Could not submit your application. Please try again later."
+    "err_submit_failed": "Could not submit your application. Please try again later.",
+    "form_wishlist_label": "Have you added Tsurugi Hime to your Steam wishlist?",
+    "wishlist_yes": "Yes, I have",
+    "wishlist_no": "Not yet (I will add it)",
+    "err_wishlist_required": "Please choose an option."
   }
 }

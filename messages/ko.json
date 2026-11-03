@@ -19,11 +19,12 @@
     "description_game": "루나 펄스'는 싱글 플레이어 로그라이트 카드 게임입니다. 1전 60초 이내에 결판이 나는 초단기 결전. 단 한 수가 즉사를 부르는 '고난도' 게임 특유의 긴장감을 느낄 수 있습니다. 서로의 패가 전부 공개된 상태에서 동시에 한 수를 겨루는 게임 시스템이 특징입니다.",
     "hero_kicker": "클로즈 베타 테스트",
     "hero_title": "참가자 모집!",
+    "hero_title_close": "Applications are now closed.",
     "info_deadline_title": "신청 기간",
     "info_deadline_val": "2026년 11월 1일(일) ~ 2026년 11월 15일(일)",
-    "info_recruit_val": "100명 모집",
-    "btn_backtop": "맨 위로 돌아가기",
+    "btn_back_to_previous": "Back to previous page",
     "btn_hero_apply": "신청하기",
+    "btn_hero_close": "End",
     "btn_back": "돌아가기",
     "form_main_title": "신청 양식",
     "guide_header": "신청 전 확인해 주세요",
@@ -39,6 +40,7 @@
     "form_email_label": "이메일 주소",
     "form_email_sub": "Steam 키 및 설문이 이 주소로 발송됩니다.",
     "form_discord_label": "Discord '사용자명'",
+    "form_discord_sub": "",
     "discord_hint_ex": "예시:",
     "discord_hint_1": "(표시 이름이 아닌 사용자명을 입력해 주세요)",
     "discord_hint_warn": "※ 계정을 확인할 수 없는 경우 참가가 취소됩니다.",
@@ -61,6 +63,10 @@
     "err_consent_required": "Please check all agreements to apply.",
     "err_captcha_required": "Please complete the verification.",
     "err_captcha_failed": "Verification failed. Please try again.",
-    "err_submit_failed": "Could not submit your application. Please try again later."
+    "err_submit_failed": "Could not submit your application. Please try again later.",
+    "form_wishlist_label": "Have you added Tsurugi Hime to your Steam wishlist?",
+    "wishlist_yes": "Yes, I have",
+    "wishlist_no": "Not yet (I will add it)",
+    "err_wishlist_required": "Please choose an option."
   }
 }

@@ -5,6 +5,9 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import localeNames from "@/i18n/locale-names.json";
 import { routing } from "@/i18n/routing";
 
+// Japanese first, then the rest in routing order
+const LOCALES: (typeof routing.locales)[number][] = ["ja", ...routing.locales.filter((l) => l !== "ja")];
+
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
@@ -22,13 +25,13 @@ export default function LocaleSwitcher() {
           router.replace(pathname, { locale: e.target.value as Locale })
         }
       >
-        {routing.locales.map((l) => (
+        {LOCALES.map((l) => (
           <option key={l} value={l} className="bg-gothic-navy">
             {l.toUpperCase()}
           </option>
         ))}
       </select>
-      {/* Same format as the design: "EN (English)" */}
+      {/* Each language's own name only, e.g. "English", "日本語" */}
       <select
         className="hidden h-full w-full cursor-pointer bg-transparent text-xs text-gothic-ivory focus:outline-none sm:text-sm sm:block"
         value={locale}
@@ -36,9 +39,9 @@ export default function LocaleSwitcher() {
           router.replace(pathname, { locale: e.target.value as Locale })
         }
       >
-        {routing.locales.map((l) => (
+        {LOCALES.map((l) => (
           <option key={l} value={l} className="bg-gothic-navy">
-            {l.toUpperCase()} ({localeNames[l]})
+            {localeNames[l]}
           </option>
         ))}
       </select>
