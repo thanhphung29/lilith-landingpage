@@ -10,52 +10,47 @@ export default async function ApplyPage() {
     <>
       <main className="relative z-10 flex-1 px-4 pt-28 pb-20 sm:px-6">
         <div className="mx-auto max-w-3xl">
-          <div className="mb-8 text-center">
-            <h1 className="mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl">
-              {t("form_main_title")}
-            </h1>
-            <div className="gold-filigree-bar mx-auto mt-3 w-40" />
-          </div>
-
-          {/* Guidelines (notes before filling) */}
-          <section className="info-frame relative mb-8 p-2 sm:p-4">
-            <h2 className="mb-4 flex items-center gap-3 text-lg font-bold text-gothic-ivory">
-              <span className="h-2.5 w-2.5 rotate-45 bg-gothic-gold" />
-              {t("guide_header")}
-            </h2>
-            <div className="space-y-4 text-sm text-gothic-body">
-              <div>
-                <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
-                  {t("info_notice_title")}
-                </span>
-                <p className="leading-relaxed">{t("info_notice_desc")}</p>
+          {/* Guidelines (notes before filling): swapped for the thank-you message once applied */}
+          <ApplyForm
+            guide={
+            <section className="info-frame relative mb-8 p-2 sm:p-4">
+              <h2 className="mb-4 flex items-center gap-3 text-lg font-bold text-gothic-ivory">
+                <span className="h-2.5 w-2.5 rotate-45 bg-gothic-gold" />
+                {t("guide_header")}
+              </h2>
+              <div className="space-y-4 text-sm text-gothic-body">
+                <div>
+                  <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
+                    {t("info_notice_title")}
+                  </span>
+                  <p className="leading-relaxed">{t("info_notice_desc")}</p>
+                </div>
+                <div>
+                  <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
+                    {t("info_req_title")}
+                  </span>
+                  <ul className="list-inside list-disc space-y-1">
+                    <li>{t("info_req_pc")}</li>
+                    <li>{t("info_req_steam")}</li>
+                    <li>{t("info_req_discord")}</li>
+                  </ul>
+                </div>
+                <div>
+                  <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
+                    {t("info_stream_title")}
+                  </span>
+                  <p className="leading-relaxed">{t("info_stream_desc")}</p>
+                </div>
+                <p className="text-xs text-gothic-ivory/80">{t("info_period_note")}</p>
               </div>
-              <div>
-                <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
-                  {t("info_req_title")}
-                </span>
-                <ul className="list-inside list-disc space-y-1">
-                  <li>{t("info_req_pc")}</li>
-                  <li>{t("info_req_steam")}</li>
-                  <li>{t("info_req_discord")}</li>
-                </ul>
-              </div>
-              <div>
-                <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
-                  {t("info_stream_title")}
-                </span>
-                <p className="leading-relaxed">{t("info_stream_desc")}</p>
-              </div>
-              <p className="text-xs text-gothic-ivory/80">{t("info_period_note")}</p>
-            </div>
-          </section>
-
-          <ApplyForm />
+            </section>
+            }
+          />
 
           <div className="mt-8 flex justify-center">
             <Link
               href="/"
-              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 text-sm font-bold tracking-wider whitespace-nowrap"
+              className="btn-top-img inline-flex h-[58px]! w-[270px]! cursor-pointer items-center justify-center gap-2 text-sm font-bold tracking-wider whitespace-nowrap"
             >
               <i className="fa-solid fa-circle-left" aria-hidden="true" />
               <span>{t("btn_back_to_previous")}</span>

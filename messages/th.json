@@ -67,6 +67,18 @@
     "form_wishlist_label": "Have you added Tsurugi Hime to your Steam wishlist?",
     "wishlist_yes": "Yes, I have",
     "wishlist_no": "Not yet (I will add it)",
-    "err_wishlist_required": "Please choose an option."
+    "err_wishlist_required": "Please choose an option.",
+    "confirm_title": "Confirm your application",
+    "confirm_desc": "Please check your entries. Your application is sent when you press Submit.",
+    "confirm_btn_edit": "Edit",
+    "apply_done_title": "Thank you for applying.",
+    "apply_done_lead": "Only winners will be notified. We’ll email winners by <b>Monday, November 30, 2026, 23:59 (JST)</b>, along with details on how to participate.",
+    "apply_done_not_selected": "Please note that applicants who are not selected will not be contacted.",
+    "apply_done_from": "If you are selected, you will receive an email from the following address:",
+    "apply_done_spam": "*The email may be sorted into your spam folder, so please check there as well.",
+    "apply_done_allow": "*To make sure you receive it, please add this address to your contacts or allow emails from it.",
+    "apply_done_warn_title": "Please note that you will not be included in the drawing if:",
+    "apply_done_warn_discord": "We cannot verify the Discord username you entered.",
+    "apply_done_warn_server": "We cannot confirm that you have joined the official LUNAR PULSE Discord server (<link>https://discord.gg/rckDPVCbVe</link>)."
   }
 }

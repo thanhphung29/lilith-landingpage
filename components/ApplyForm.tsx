@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
 import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
+import { SOCIALS } from "./socials";
 import Turnstile from "./Turnstile";
 
 const CONSENTS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5"] as const;
@@ -11,9 +11,15 @@ const CONSENTS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
 const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-lg";
+// Same as LABEL, with more room before the answer on the confirm step
+const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-lg";
 type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
 
 const WISHLIST_URL = "https://store.steampowered.com/app/2220860/";
+const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
+const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
+
+type Entry = { email: string; discord: string; wishlist: "yes" | "no" };
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
@@ -28,12 +34,18 @@ function FieldError({ id, message }: { id: string; message: string }) {
   );
 }
 
-export default function ApplyForm() {
+export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const t = useTranslations("Landing");
   const locale = useLocale();
-  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  const [done, setDone] = useState(false);
+  // form -> confirm (review what was entered) -> done (after the API says OK), all on the page
+  const [step, setStep] = useState<"form" | "confirm" | "done">("form");
+  const headingRef = useRef<HTMLDivElement>(null);
+  const formAreaRef = useRef<HTMLDivElement>(null);
+  // The step the page last scrolled for, so arriving on the page (or coming back to it) never scrolls
+  const scrolledStep = useRef<"form" | "confirm" | "done">("form");
+  // What the applicant entered, shown on the confirm step before anything is sent
+  const [entry, setEntry] = useState<Entry | null>(null);
   const [errors, setErrors] = useState<Errors>({});
   const [token, setToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
@@ -46,11 +58,21 @@ export default function ApplyForm() {
   useEffect(() => {
     const form = formRef.current;
     return () => {
-      setDone(false);
+      setStep("form");
+      scrolledStep.current = "form";
+      setEntry(null);
       setErrors({});
       form?.reset();
     };
   }, []);
+
+  // Bring the new step into view (the page is long and the header is fixed)
+  useEffect(() => {
+    if (scrolledStep.current === step) return;
+    scrolledStep.current = step;
+    // Confirm and thank-you take over the page title; going back (Edit) lands on the form itself
+    (step === "form" ? formAreaRef : headingRef).current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [step]);
 
   function checkFilled() {
     if (!formRef.current) return;
@@ -67,7 +89,7 @@ export default function ApplyForm() {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: undefined } : prev));
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const email = String(data.get("email") ?? "").trim();
@@ -90,22 +112,39 @@ export default function ApplyForm() {
       return;
     }
 
+    // Valid: go to the confirm step. Nothing is sent until the applicant confirms.
+    setEntry({ email, discord, wishlist: wishlist as Entry["wishlist"] });
+    setStep("confirm");
+  }
+
+  async function sendApplication() {
+    if (!entry) return;
+    // The captcha token can expire while the confirm step is open
+    if (!token) {
+      setStep("form");
+      setErrors({ captcha: t("err_captcha_required") });
+      return;
+    }
+
     setSubmitting(true);
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, discord, wishlist, token, locale }),
+        body: JSON.stringify({ ...entry, token, locale }),
       });
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
-        setDone(true);
+        setStep("done");
         return;
       }
+      // Back to the form, with the reason shown under the captcha
+      setStep("form");
       setErrors({
         captcha: t(result.error === "captcha_failed" ? "err_captcha_failed" : "err_submit_failed"),
       });
     } catch {
+      setStep("form");
       setErrors({ captcha: t("err_submit_failed") });
     } finally {
       setSubmitting(false);
@@ -114,21 +153,75 @@ export default function ApplyForm() {
     }
   }
 
-  function closeModal() {
-    setDone(false);
-    formRef.current?.reset();
-    router.push("/");
-  }
-
   return (
     <>
+      {/* Page title: follows the step (form -> confirm -> thank-you) */}
+      <div ref={headingRef} className="mb-8 scroll-mt-24 text-center">
+        <h1 className="mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl">
+          {step === "done" ? t("apply_done_title") : step === "confirm" ? t("confirm_title") : t("form_main_title")}
+        </h1>
+        <div className="gold-filigree-bar mx-auto mt-3 w-40" />
+      </div>
+
+      {step === "done" ? (
+        // Takes the place of "Before you apply" once the application has gone through
+        <section className="info-frame relative mb-8 p-2 sm:p-4">
+          <div className="space-y-4 text-sm text-gothic-body">
+            <p className="leading-relaxed">
+              {t.rich("apply_done_lead", { b: (chunks) => <strong className="font-bold">{chunks}</strong> })}
+            </p>
+            <p className="leading-relaxed">{t("apply_done_not_selected")}</p>
+            <div>
+              <p className="leading-relaxed">{t("apply_done_from")}</p>
+              <p className="mt-1 font-mono font-bold">
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className="text-gothic-gold underline hover:text-gothic-ivory"
+                >
+                  {SUPPORT_EMAIL}
+                </a>
+              </p>
+            </div>
+            <div className="space-y-1 text-xs text-gothic-ivory/80">
+              <p>{t("apply_done_spam")}</p>
+              <p>{t("apply_done_allow")}</p>
+            </div>
+            <div>
+              <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
+                {t("apply_done_warn_title")}
+              </span>
+              <ul className="list-inside list-disc space-y-1">
+                <li>{t("apply_done_warn_discord")}</li>
+                <li>
+                  {t.rich("apply_done_warn_server", {
+                    link: (chunks) => (
+                      <a
+                        href={DISCORD_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-all text-gothic-gold underline hover:text-gothic-ivory"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                  })}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      ) : (
+        step === "form" && guide
+      )}
+
+    <div ref={formAreaRef} className="scroll-mt-24">
       <form
         ref={formRef}
         onSubmit={handleSubmit}
         onChange={checkFilled}
         onReset={() => setFilled(false)}
         noValidate
-        className="space-y-6"
+        className={step === "form" ? "space-y-6" : "hidden"}
       >
         <div className={CARD}>
           <label htmlFor="applicantEmail" className={LABEL}>
@@ -216,7 +309,7 @@ export default function ApplyForm() {
                   onChange={() => clearError("wishlist")}
                   className="mt-1 h-4 w-4 accent-gothic-gold"
                 />
-                <span className="text-sm text-gothic-body sm:text-base">{t(`wishlist_${value}`)}</span>
+                <span className="text-sm text-gothic-body">{t(`wishlist_${value}`)}</span>
               </label>
             ))}
           </div>
@@ -245,7 +338,7 @@ export default function ApplyForm() {
                   onChange={() => clearError("consent")}
                   className="mt-1 h-4 w-4 rounded accent-gothic-gold"
                 />
-                <span className="text-sm text-gothic-body sm:text-base">{t(key)}</span>
+                <span className="text-sm text-gothic-body">{t(key)}</span>
               </label>
             ))}
           </div>
@@ -268,7 +361,7 @@ export default function ApplyForm() {
           </div>
           <button
             type="submit"
-            disabled={submitting || !filled || !token}
+            disabled={!filled || !token}
             className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
           >
             <i className="fa-solid fa-paper-plane" aria-hidden="true" />
@@ -277,29 +370,81 @@ export default function ApplyForm() {
         </div>
       </form>
 
-      {done && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="success-title"
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-gothic-deep/80 px-4 backdrop-blur-sm"
-        >
-          <div className="info-frame w-full max-w-xl p-2 text-center sm:p-14 sm:pb-8">
-            <h2 id="success-title" className="mb-3 text-2xl font-black text-gothic-ivory">
-              {t("modal_title")}
-            </h2>
-            <p className="mb-6 text-sm leading-relaxed text-gothic-body">{t("modal_desc")}</p>
+      {step === "confirm" && entry && (
+        <section className="space-y-6">
+          <p className="text-center text-sm leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
+
+          <div className={CARD}>
+            <p className={CONFIRM_LABEL}>
+              {t("form_email_label")} <span className="text-gothic-gold">*</span>
+            </p>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
+                <i className="fa-regular fa-envelope" aria-hidden="true" />
+              </div>
+              <div className={`${INPUT} break-all`}>{entry.email}</div>
+            </div>
+          </div>
+
+          <div className={CARD}>
+            <p className={CONFIRM_LABEL}>
+              {t("form_discord_label")} <span className="text-gothic-gold">*</span>
+            </p>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
+                <i className="fa-brands fa-discord" aria-hidden="true" />
+              </div>
+              <div className={`${INPUT} break-all`}>{entry.discord}</div>
+            </div>
+          </div>
+
+          <div className={CARD}>
+            <p className={CONFIRM_LABEL}>
+              {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
+            </p>
+            <a
+              href={WISHLIST_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-4 block break-all text-sm text-gothic-gold underline hover:text-gothic-ivory"
+            >
+              {WISHLIST_URL}
+            </a>
+            <div className="flex items-start gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
+              <input
+                type="radio"
+                checked
+                readOnly
+                tabIndex={-1}
+                className="pointer-events-none mt-1 h-4 w-4 accent-gothic-gold"
+              />
+              <span className="text-sm text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center sm:gap-4">
             <button
               type="button"
-              autoFocus
-              onClick={closeModal}
-              className="btn-img mx-auto flex cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
+              disabled={submitting}
+              onClick={sendApplication}
+              className="btn-img flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {t("modal_btn")}
+              <i className="fa-solid fa-paper-plane" aria-hidden="true" />
+              <span>{t("btn_submit")}</span>
+            </button>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => setStep("form")}
+              className="btn-top-img flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <i className="fa-solid fa-pen" aria-hidden="true" />
+              <span>{t("confirm_btn_edit")}</span>
             </button>
           </div>
-        </div>
+        </section>
       )}
+    </div>
     </>
   );
 }
