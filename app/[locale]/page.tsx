@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import ButtonParticles from "@/components/ButtonParticles";
+import ApplyButton from "@/components/ApplyButton";
 import Footer from "@/components/Footer";
+import HeroTitle from "@/components/HeroTitle";
 import Logo from "@/components/Logo";
-import { Link } from "@/i18n/navigation";
 
 export default async function Home() {
   const t = await getTranslations("Landing");
@@ -36,9 +36,7 @@ export default async function Home() {
             <p className="mb-1 text-lg font-bold tracking-widest text-gothic-gold sm:text-2xl [text-shadow:0_2px_10px_rgba(0,0,0,.9)]">
               {t("hero_kicker")}
             </p>
-            <h1 className="mb-8 text-4xl font-black tracking-wide text-gothic-ivory sm:text-6xl [text-shadow:0_2px_14px_rgba(0,0,0,.9)]">
-              {t("hero_title")}
-            </h1>
+            <HeroTitle title={t("hero_title")} closedTitle={t("hero_title_close")} />
 
             <div className="mb-8">
               <p className="mb-2 inline-block bg-gothic-gold px-3 py-0.5 text-xs font-bold tracking-widest text-gothic-deep sm:text-sm">
@@ -52,16 +50,7 @@ export default async function Home() {
               </p>
             </div>
 
-            <div className="btn-wrap">
-              <div className="btn-glow" aria-hidden="true" />
-              <ButtonParticles />
-              <Link
-                href="/apply"
-                className="btn-img flex items-center justify-center gap-3 text-lg font-black uppercase tracking-wider"
-              >
-                {t("btn_hero_apply")}
-              </Link>
-            </div>
+            <ApplyButton label={t("btn_hero_apply")} closedLabel={t("btn_hero_close")} />
           </div>
         </section>
       </main>

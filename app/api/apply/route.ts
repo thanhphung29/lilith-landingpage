@@ -1,10 +1,15 @@
 import { appendApplication } from "@/lib/google-sheets";
 import { routing } from "@/i18n/routing";
+import { isApplyClosed } from "@/lib/event";
 import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 export async function POST(request: Request) {
+  if (isApplyClosed()) {
+    return Response.json({ ok: false, error: "closed" }, { status: 403 });
+  }
+
 
   let body: { email?: unknown; discord?: unknown; wishlist?: unknown; token?: unknown; locale?: unknown };
   try {

@@ -44,7 +44,11 @@ export default function Turnstile({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const onTokenRef = useRef(onToken);
-  onTokenRef.current = onToken;
+
+  // Keep the latest callback without re-rendering the widget
+  useEffect(() => {
+    onTokenRef.current = onToken;
+  });
 
   useEffect(() => {
     const el = ref.current;

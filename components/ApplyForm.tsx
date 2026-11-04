@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
+import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
 import Turnstile from "./Turnstile";
 
@@ -37,6 +39,9 @@ function FieldError({ id, message }: { id: string; message: string }) {
 export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const t = useTranslations("Landing");
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const closed = useApplyClosed();
   const formRef = useRef<HTMLFormElement>(null);
   // form -> confirm (review what was entered) -> done (after the API says OK), all on the page
   const [step, setStep] = useState<"form" | "confirm" | "done">("form");
@@ -65,6 +70,13 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       form?.reset();
     };
   }, []);
+
+  // Applications close while this page is open: go back to the top page (where the button and
+  // title already show "closed"). The pathname check stops a hidden, cached copy of this page
+  // from redirecting someone who is already elsewhere.
+  useEffect(() => {
+    if (closed && pathname === "/apply") router.replace("/");
+  }, [closed, pathname, router]);
 
   // Bring the new step into view (the page is long and the header is fixed)
   useEffect(() => {
@@ -136,6 +148,11 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
         setStep("done");
+        return;
+      }
+      // The deadline passed while the application was on its way
+      if (result.error === "closed") {
+        router.replace("/");
         return;
       }
       // Back to the form, with the reason shown under the captcha
