@@ -47,12 +47,17 @@ async function appendRow(client: JWT, spreadsheetId: string, sheetName: string, 
   });
 }
 
-// Appends one row: STT | Email | Discord | Added Tsurugihime (Yes/No) | Language | CreatedDate (UTC, "yyyy-MM-dd HH:mm:ss").
+// "yyyy-MM-dd HH:mm:ss" in Japan Standard Time (UTC+9, no daylight saving)
+function formatJst(date: Date) {
+  return new Date(date.getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 19).replace("T", " ");
+}
+
+// Appends one row: STT | Email | Discord | Added Tsurugihime (Yes/No) | Language | CreatedDate (JST, "yyyy-MM-dd HH:mm:ss").
 // STT is the formula =ROW()-1 (row 1 is the header), so it always follows the row position.
 export async function appendApplication({ email, discord, wishlist, locale }: Application) {
   const { spreadsheetId, sheetGid, sheetName } = getConfig();
   const client = getClient();
-  const createdDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+  const createdDate = formatJst(new Date());
 
   // USER_ENTERED is needed for the formula, so the leading apostrophe on the other cells keeps
   // them as plain text: nothing the user typed can run as a formula or get turned into a number/date

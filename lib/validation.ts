@@ -2,6 +2,8 @@
 // ASCII only; local part uses RFC 5322 "atext" characters with no leading/trailing/double dots;
 // domain labels are letters/digits/hyphens (not starting or ending with "-", <= 63 chars) and the
 // last label (TLD) is letters only (or punycode "xn--"), at least 2 chars.
+// It must not start with "=", "+", "-" or "@": spreadsheets (Excel, when the sheet is exported to
+// CSV) treat such a cell as a formula, so those addresses are rejected (CSV/formula injection).
 export const EMAIL_MAX_LENGTH = 254;
 const EMAIL_LOCAL_RE = /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*$/;
 const EMAIL_LABEL_RE = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
@@ -12,6 +14,7 @@ export function isValidEmail(value: string) {
   const at = value.indexOf("@");
   if (at < 1 || at !== value.lastIndexOf("@")) return false;
   const local = value.slice(0, at);
+  if (/^[=+\-@]/.test(local)) return false;
   const labels = value.slice(at + 1).split(".");
   return (
     local.length <= 64 &&
