@@ -34,8 +34,8 @@ export function isValidDiscord(value: string) {
   );
 }
 
-// Only trims whitespace and a leading "@" (a common paste); the case is NOT changed,
-// because uppercase letters mean a display name, not a username.
+// Only trims whitespace. A "@" is NOT removed (it is not part of a username, so it is rejected),
+// and the case is NOT changed (uppercase letters mean a display name, not a username).
 export function normalizeDiscord(value: string) {
-  return value.trim().replace(/^@/, "");
+  return value.trim();
 }
