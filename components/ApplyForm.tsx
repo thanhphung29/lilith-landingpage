@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { EMAIL_RE, isValidDiscord, normalizeDiscord } from "@/lib/validation";
+import { EMAIL_MAX_LENGTH, isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
 import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
 import Turnstile from "./Turnstile";
@@ -109,7 +109,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
     const next: Errors = {};
     if (!email) next.email = t("err_email_required");
-    else if (!EMAIL_RE.test(email)) next.email = t("err_email_invalid");
+    else if (!isValidEmail(email)) next.email = t("err_email_invalid");
     if (!discord) next.discord = t("err_discord_required");
     else if (!isValidDiscord(discord)) next.discord = t("err_discord_invalid");
     const wishlist = String(data.get("wishlist") ?? "");
@@ -254,6 +254,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               id="applicantEmail"
               name="email"
               autoComplete="email"
+              maxLength={EMAIL_MAX_LENGTH}
               placeholder="yourname@example.com"
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}

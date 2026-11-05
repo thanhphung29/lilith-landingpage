@@ -1,7 +1,7 @@
 import { appendApplication } from "@/lib/google-sheets";
 import { routing } from "@/i18n/routing";
 import { isApplyClosed } from "@/lib/event";
-import { EMAIL_RE, isValidDiscord, normalizeDiscord } from "@/lib/validation";
+import { isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   const token = typeof body.token === "string" ? body.token : "";
   const locale = routing.locales.find((l) => l === body.locale) ?? routing.defaultLocale;
 
-  if (!EMAIL_RE.test(email) || !isValidDiscord(discord) || !wishlist) {
+  if (!isValidEmail(email) || !isValidDiscord(discord) || !wishlist) {
     return Response.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
   if (!token) {
