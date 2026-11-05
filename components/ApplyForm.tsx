@@ -17,7 +17,7 @@ const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-lg";
 const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-lg";
 type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
 
-const WISHLIST_URL = "https://store.steampowered.com/app/2220860/";
+const WISHLIST_URL = "https://store.steampowered.com/app/4555610/";
 const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
 const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
 
