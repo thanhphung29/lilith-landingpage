@@ -4,8 +4,16 @@ import { useEffect, useRef } from "react";
 
 // Keeps a one-line text inside the nearest [data-fit-box]: the CSS font size is used while it fits,
 // otherwise the size shrinks (width scales linearly with font size) until the line fits.
-export default function FitText({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLParagraphElement>(null);
+export default function FitText({
+  children,
+  className,
+  as: Tag = "p",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  as?: "p" | "span";
+}) {
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -27,12 +35,16 @@ export default function FitText({ children, className }: { children: React.React
     observer.observe(box);
     // The web font changes the text width once it has loaded
     document.fonts?.ready.then(fit);
-    return () => observer.disconnect();
+    document.fonts?.addEventListener("loadingdone", fit);
+    return () => {
+      observer.disconnect();
+      document.fonts?.removeEventListener("loadingdone", fit);
+    };
   }, [children]);
 
   return (
-    <p ref={ref} className={className}>
+    <Tag ref={ref as React.Ref<never>} className={className}>
       {children}
-    </p>
+    </Tag>
   );
 }

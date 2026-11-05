@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import FitText from "@/components/FitText";
 import ApplyForm from "@/components/ApplyForm";
 import Footer from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
@@ -96,10 +97,14 @@ export default async function ApplyPage() {
           <div className="mt-8 flex justify-center">
             <Link
               href="/"
-              className="btn-top-img inline-flex h-[58px]! w-[270px]! cursor-pointer items-center justify-center gap-2 text-sm font-bold tracking-wider whitespace-nowrap"
+              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-sm font-bold tracking-wider whitespace-nowrap"
             >
               <i className="fa-solid fa-circle-left" aria-hidden="true" />
-              <span>{t("btn_back_to_previous")}</span>
+              <span data-fit-box className="flex min-w-0 items-center">
+                <FitText as="span" className="inline-block whitespace-nowrap">
+                  {t("btn_back_to_previous")}
+                </FitText>
+              </span>
             </Link>
           </div>
         </div>

@@ -325,7 +325,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                   name="wishlist"
                   value={value}
                   onChange={() => clearError("wishlist")}
-                  className="mt-1 h-4 w-4 accent-gothic-gold"
+                  className="mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 accent-gothic-gold"
                 />
                 <span className="text-sm text-gothic-body">{t(`wishlist_${value}`)}</span>
               </label>
@@ -354,7 +354,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                   id={key}
                   name={key}
                   onChange={() => clearError("consent")}
-                  className="mt-1 h-4 w-4 rounded accent-gothic-gold"
+                  className="mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 rounded-[4px] accent-gothic-gold"
                 />
                 <span className="text-sm text-gothic-body">{t(key)}</span>
               </label>
@@ -434,7 +434,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                 checked
                 readOnly
                 tabIndex={-1}
-                className="pointer-events-none mt-1 h-4 w-4 accent-gothic-gold"
+                className="pointer-events-none mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 accent-gothic-gold"
               />
               <span className="text-sm text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
             </div>
