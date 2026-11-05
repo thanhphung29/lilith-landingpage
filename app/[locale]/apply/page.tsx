@@ -64,7 +64,7 @@ export default async function ApplyPage() {
                 <div>
                   <span className={GUIDE_TITLE}>{t("info_notice_title")}</span>
                   <p className="leading-relaxed">{t("info_notice_desc")}</p>
-                  <p className="mt-1 font-mono font-bold">
+                  <p className="mt-1 font-bold">
                     <ExternalLink href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</ExternalLink>
                   </p>
                   <div className="mt-1 space-y-1 text-xs text-gothic-ivory/80">

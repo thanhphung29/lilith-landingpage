@@ -25,7 +25,7 @@ type Entry = { email: string; discord: string; wishlist: "yes" | "no" };
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
-  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 font-mono text-sm text-gothic-ivory placeholder-gothic-ivory/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
+  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 text-sm text-gothic-ivory placeholder-gothic-ivory/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
@@ -190,7 +190,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             <p className="leading-relaxed">{t("apply_done_not_selected")}</p>
             <div>
               <p className="leading-relaxed">{t("apply_done_from")}</p>
-              <p className="mt-1 font-mono font-bold">
+              <p className="mt-1 font-bold">
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
                   className="text-gothic-gold underline hover:text-gothic-ivory"
@@ -269,7 +269,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             {t("form_discord_label")} <span className="text-gothic-gold">*</span>
           </label>
           {t("form_discord_sub") && <p className="mb-3 text-sm text-gothic-ivory">{t("form_discord_sub")}</p>}
-          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 font-mono text-xs text-gothic-ivory">
+          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-xs text-gothic-ivory">
             <p>
               <strong>{t("discord_hint_ex")}</strong>{" "}
               <span className="text-gothic-gold">lunar_tester</span>{" "}
