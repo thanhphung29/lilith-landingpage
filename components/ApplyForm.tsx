@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { DISCORD_RE, EMAIL_RE, normalizeDiscord } from "@/lib/validation";
+import { EMAIL_RE, isValidDiscord, normalizeDiscord } from "@/lib/validation";
 import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
 import Turnstile from "./Turnstile";
@@ -111,7 +111,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     if (!email) next.email = t("err_email_required");
     else if (!EMAIL_RE.test(email)) next.email = t("err_email_invalid");
     if (!discord) next.discord = t("err_discord_required");
-    else if (!DISCORD_RE.test(discord)) next.discord = t("err_discord_invalid");
+    else if (!isValidDiscord(discord)) next.discord = t("err_discord_invalid");
     const wishlist = String(data.get("wishlist") ?? "");
     if (wishlist !== "yes" && wishlist !== "no") next.wishlist = t("err_wishlist_required");
     if (!CONSENTS.every((key) => data.get(key))) next.consent = t("err_consent_required");

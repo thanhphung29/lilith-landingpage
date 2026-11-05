@@ -73,7 +73,7 @@
     "err_email_required": "请输入电子邮件地址。",
     "err_email_invalid": "请输入有效的电子邮件地址。",
     "err_discord_required": "请输入 Discord 用户名。",
-    "err_discord_invalid": "Discord 用户名无效：请使用 6–32 个字母、数字、下划线或句点（句点不可连续出现）。",
+    "err_discord_invalid": "Discord 用户名无效：请使用 2–32 个小写字母、数字、下划线或句点（句点不可连续出现）。",
     "err_consent_required": "请勾选所有同意事项后再报名。",
     "err_captcha_required": "请完成验证。",
     "err_captcha_failed": "验证失败，请重试。",

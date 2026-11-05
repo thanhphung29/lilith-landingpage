@@ -73,7 +73,7 @@
     "err_email_required": "Informe seu endereço de e-mail.",
     "err_email_invalid": "Informe um endereço de e-mail válido.",
     "err_discord_required": "Informe seu nome de usuário do Discord.",
-    "err_discord_invalid": "Nome de usuário do Discord inválido: use de 6 a 32 letras, números, sublinhados ou pontos (sem dois pontos seguidos).",
+    "err_discord_invalid": "Nome de usuário do Discord inválido: use de 2 a 32 letras minúsculas, números, sublinhados ou pontos (sem dois pontos seguidos).",
     "err_consent_required": "Marque todos os termos de concordância para se inscrever.",
     "err_captcha_required": "Conclua a verificação.",
     "err_captcha_failed": "Falha na verificação. Tente novamente.",

@@ -73,7 +73,7 @@
     "err_email_required": "Vui lòng nhập địa chỉ email.",
     "err_email_invalid": "Vui lòng nhập địa chỉ email hợp lệ.",
     "err_discord_required": "Vui lòng nhập tên người dùng Discord.",
-    "err_discord_invalid": "Tên người dùng Discord không hợp lệ: hãy dùng 6–32 ký tự gồm chữ cái, chữ số, dấu gạch dưới hoặc dấu chấm (không dùng hai dấu chấm liên tiếp).",
+    "err_discord_invalid": "Tên người dùng Discord không hợp lệ: hãy dùng 2–32 ký tự gồm chữ cái thường, chữ số, dấu gạch dưới hoặc dấu chấm (không dùng hai dấu chấm liên tiếp).",
     "err_consent_required": "Vui lòng chọn tất cả các mục đồng ý để đăng ký.",
     "err_captcha_required": "Vui lòng hoàn tất bước xác minh.",
     "err_captcha_failed": "Xác minh thất bại. Vui lòng thử lại.",

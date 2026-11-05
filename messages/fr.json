@@ -73,7 +73,7 @@
     "err_email_required": "Veuillez saisir votre adresse e-mail.",
     "err_email_invalid": "Veuillez saisir une adresse e-mail valide.",
     "err_discord_required": "Veuillez saisir votre nom d’utilisateur Discord.",
-    "err_discord_invalid": "Nom d’utilisateur Discord invalide : utilisez de 6 à 32 lettres, chiffres, tirets bas ou points (pas deux points consécutifs).",
+    "err_discord_invalid": "Nom d’utilisateur Discord invalide : utilisez de 2 à 32 lettres minuscules, chiffres, tirets bas ou points (pas deux points consécutifs).",
     "err_consent_required": "Veuillez cocher tous les points pour postuler.",
     "err_captcha_required": "Veuillez terminer la vérification.",
     "err_captcha_failed": "Échec de la vérification. Veuillez réessayer.",

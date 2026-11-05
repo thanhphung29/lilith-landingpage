@@ -73,7 +73,7 @@
     "err_email_required": "Bitte geben Sie Ihre E-Mail-Adresse ein.",
     "err_email_invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     "err_discord_required": "Bitte geben Sie Ihren Discord-Benutzernamen ein.",
-    "err_discord_invalid": "Ungültiger Discord-Benutzername: Verwenden Sie 6–32 Buchstaben, Zahlen, Unterstriche oder Punkte (keine zwei Punkte hintereinander).",
+    "err_discord_invalid": "Ungültiger Discord-Benutzername: Verwenden Sie 2–32 Kleinbuchstaben, Zahlen, Unterstriche oder Punkte (keine zwei Punkte hintereinander).",
     "err_consent_required": "Bitte stimmen Sie allen Punkten zu, um sich zu bewerben.",
     "err_captcha_required": "Bitte schließen Sie die Verifizierung ab.",
     "err_captcha_failed": "Verifizierung fehlgeschlagen. Bitte versuchen Sie es erneut.",

@@ -73,7 +73,7 @@
     "err_email_required": "Podaj swój adres e-mail.",
     "err_email_invalid": "Podaj prawidłowy adres e-mail.",
     "err_discord_required": "Podaj swoją nazwę użytkownika w Discord.",
-    "err_discord_invalid": "Nieprawidłowa nazwa użytkownika w Discord: użyj 6–32 liter, cyfr, podkreśleń lub kropek (bez dwóch kropek pod rząd).",
+    "err_discord_invalid": "Nieprawidłowa nazwa użytkownika w Discord: użyj 2–32 małych liter, cyfr, podkreśleń lub kropek (bez dwóch kropek pod rząd).",
     "err_consent_required": "Zaznacz wszystkie zgody, aby wysłać zgłoszenie.",
     "err_captcha_required": "Ukończ weryfikację.",
     "err_captcha_failed": "Weryfikacja nie powiodła się. Spróbuj ponownie.",

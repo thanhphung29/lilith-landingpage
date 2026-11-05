@@ -73,7 +73,7 @@
     "err_email_required": "メールアドレスを入力してください。",
     "err_email_invalid": "有効なメールアドレスを入力してください。",
     "err_discord_required": "Discordのユーザー名を入力してください。",
-    "err_discord_invalid": "Discordのユーザー名が正しくありません。6～32文字の英字・数字・アンダースコア・ピリオドで入力してください（ピリオドを2つ続けることはできません）。",
+    "err_discord_invalid": "Discordのユーザー名が正しくありません。2～32文字の半角小文字の英字・数字・アンダースコア・ピリオドで入力してください（ピリオドを2つ続けることはできません）。",
     "err_consent_required": "応募するにはすべての同意項目にチェックしてください。",
     "err_captcha_required": "認証を完了してください。",
     "err_captcha_failed": "認証に失敗しました。もう一度お試しください。",

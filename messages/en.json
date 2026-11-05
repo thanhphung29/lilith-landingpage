@@ -73,7 +73,7 @@
     "err_email_required": "Please enter your email address.",
     "err_email_invalid": "Please enter a valid email address.",
     "err_discord_required": "Please enter your Discord user name.",
-    "err_discord_invalid": "Invalid Discord user name: use 6–32 letters, numbers, underscores or periods (no two periods in a row).",
+    "err_discord_invalid": "Invalid Discord user name: use 2–32 lowercase letters, numbers, underscores or periods (no two periods in a row).",
     "err_consent_required": "Please check all agreements to apply.",
     "err_captcha_required": "Please complete the verification.",
     "err_captcha_failed": "Verification failed. Please try again.",

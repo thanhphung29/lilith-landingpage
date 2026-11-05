@@ -73,7 +73,7 @@
     "err_email_required": "Masukkan alamat email Anda.",
     "err_email_invalid": "Masukkan alamat email yang valid.",
     "err_discord_required": "Masukkan nama pengguna Discord Anda.",
-    "err_discord_invalid": "Nama pengguna Discord tidak valid: gunakan 6–32 huruf, angka, garis bawah, atau titik (tidak boleh ada dua titik berturut-turut).",
+    "err_discord_invalid": "Nama pengguna Discord tidak valid: gunakan 2–32 huruf kecil, angka, garis bawah, atau titik (tidak boleh ada dua titik berturut-turut).",
     "err_consent_required": "Centang semua persetujuan untuk mendaftar.",
     "err_captcha_required": "Selesaikan verifikasi.",
     "err_captcha_failed": "Verifikasi gagal. Silakan coba lagi.",
