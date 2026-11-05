@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import ApplyButton from "@/components/ApplyButton";
+import FitText from "@/components/FitText";
 import Footer from "@/components/Footer";
 import HeroTitle from "@/components/HeroTitle";
 import Logo from "@/components/Logo";
@@ -26,7 +27,7 @@ export default async function Home() {
             <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-gothic-deep/70 to-transparent" />
           </div>
 
-          <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-6 py-8 text-center sm:px-10 lg:items-start lg:px-16 lg:text-left">
+          <div data-fit-box className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-6 py-8 text-center sm:px-10 lg:items-start lg:px-16 lg:text-left">
             <Logo
               priority
               sizes="(min-width: 768px) 448px, (min-width: 640px) 384px, 256px"
@@ -42,12 +43,9 @@ export default async function Home() {
               <p className="mb-2 inline-block bg-gothic-gold px-3 py-0.5 text-xs font-bold tracking-widest text-gothic-deep sm:text-sm">
                 {t("info_deadline_title")}
               </p>
-              <p
-                className="whitespace-nowrap font-bold text-gothic-ivory [text-shadow:0_2px_10px_rgba(0,0,0,.9)]"
-                style={{ fontSize: "clamp(.75rem, calc((100vw - 3rem) / 23), 1.5rem)" }}
-              >
+              <FitText className="whitespace-nowrap text-[clamp(.75rem,calc((100vw-3rem)/23),1.5rem)] font-bold text-gothic-ivory [text-shadow:0_2px_10px_rgba(0,0,0,.9)]">
                 {t("info_deadline_val")}
-              </p>
+              </FitText>
             </div>
 
             <ApplyButton label={t("btn_hero_apply")} closedLabel={t("btn_hero_close")} />
