@@ -296,7 +296,6 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <label htmlFor="discordHandle" className={LABEL}>
             {t("form_discord_label")} <span className="text-gothic-gold">*</span>
           </label>
-          {t("form_discord_sub") && <p className="mb-3 text-base text-gothic-ivory">{t("form_discord_sub")}</p>}
           <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-ivory">
             <p>
               <strong>{t("discord_hint_ex")}</strong>{" "}
