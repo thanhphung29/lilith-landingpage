@@ -211,7 +211,10 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     <>
       {/* Page title: follows the step (form -> confirm -> thank-you) */}
       <div ref={headingRef} className="mb-8 scroll-mt-24 text-center">
-        <h1 className="mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl">
+        <h1
+          // German titles ("Bewerbungsformular") are long: smaller below 375px so they stay on one line
+          className={`mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl ${locale === "de" ? "max-[374px]:text-2xl" : ""}`}
+        >
           {step === "done" ? t("apply_done_title") : step === "confirm" ? t("confirm_title") : t("form_main_title")}
         </h1>
         <div className="gold-filigree-bar mx-auto mt-3 w-40" />
