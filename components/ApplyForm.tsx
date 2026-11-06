@@ -27,7 +27,7 @@ const INPUT =
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
-    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-base text-gothic-gold">
+    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-base text-red-400">
       <i className="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -432,7 +432,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
           <div className={CARD}>
             <p className={CONFIRM_LABEL}>
-              {t("form_email_label")} <span className="text-gothic-gold">*</span>
+              {t("confirm_email_label")} <span className="text-gothic-gold">*</span>
             </p>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
@@ -444,7 +444,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
           <div className={CARD}>
             <p className={CONFIRM_LABEL}>
-              {t("form_discord_label")} <span className="text-gothic-gold">*</span>
+              {t("confirm_discord_label")} <span className="text-gothic-gold">*</span>
             </p>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
@@ -456,7 +456,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
           <div className={CARD}>
             <p className={CONFIRM_LABEL}>
-              {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
+              {t("confirm_wishlist_label")} <span className="text-gothic-gold">*</span>
             </p>
             <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
               <input
