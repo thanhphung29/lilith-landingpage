@@ -16,6 +16,7 @@ import Background from "@/components/Background";
 import ClickSound from "@/components/ClickSound";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
+import { getSiteUrl } from "@/lib/site";
 import "../globals.css";
 
 const notoSerifJP = Noto_Serif_JP({
@@ -57,8 +58,9 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-// Needed to turn the relative thumbnail path below into the absolute URL social sites require
-const SITE_URL = "https://lilith-landingpage.vercel.app";
+// Needed to turn the relative thumbnail path below into the absolute URL social sites require.
+// Comes from the SITE_URL env var (see lib/site.ts); localhost when it is not set.
+const SITE_URL = getSiteUrl() ?? "http://localhost:3000";
 
 // Open Graph wants language_TERRITORY
 const OG_LOCALES: Record<Locale, string> = {
