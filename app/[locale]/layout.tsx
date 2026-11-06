@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, type Locale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Background from "@/components/Background";
+import LogoPreload from "@/components/LogoPreload";
 import ClickSound from "@/components/ClickSound";
 import GoogleTagManager, { GoogleTagManagerNoScript } from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
@@ -146,6 +147,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Background />
           <ClickSound />
+          <LogoPreload />
           <Header />
           {children}
         </NextIntlClientProvider>
