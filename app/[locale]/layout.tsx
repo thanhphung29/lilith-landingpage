@@ -14,6 +14,7 @@ import { hasLocale, type Locale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Background from "@/components/Background";
 import ClickSound from "@/components/ClickSound";
+import GoogleTagManager, { GoogleTagManagerNoScript } from "@/components/GoogleTagManager";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/site";
@@ -140,6 +141,8 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="relative min-h-full flex flex-col selection:bg-gothic-gold selection:text-gothic-deep">
+        <GoogleTagManagerNoScript />
+        <GoogleTagManager />
         <NextIntlClientProvider>
           <Background />
           <ClickSound />
