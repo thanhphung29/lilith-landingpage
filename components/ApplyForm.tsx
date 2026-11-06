@@ -96,6 +96,12 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         setErrors({});
         setFilled(false);
         form?.reset();
+      } else if (stepRef.current === "confirm") {
+        // Leaving from the confirm step: coming back lands on the form with what was entered
+        // (the fields keep their values), not on the confirm step
+        setStep("form");
+        scrolledStep.current = "form";
+        setEntry(null);
       } else {
         // Coming back to this step must not scroll
         scrolledStep.current = stepRef.current;
