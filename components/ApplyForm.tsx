@@ -117,7 +117,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
     setErrors(next);
     if (Object.keys(next).length > 0) {
-      const target = next.email ? "applicantEmail" : next.discord ? "discordHandle" : next.wishlist ? "wishlist_yes" : "consent_1";
+      const target = next.consent ? "consent_1" : next.email ? "applicantEmail" : next.discord ? "discordHandle" : "wishlist_yes";
       formRef.current?.querySelector<HTMLElement>(`[id="${target}"]`)?.focus();
       return;
     }
@@ -238,6 +238,35 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         noValidate
         className={step === "form" ? "space-y-6" : "hidden"}
       >
+        <fieldset
+          className={`${CARD} ${errors.consent ? "border-red-500/80" : ""}`}
+          aria-describedby={errors.consent ? "consent-error" : undefined}
+        >
+          <legend className="sr-only">{t("form_consent_label")}</legend>
+          <p className={LABEL} aria-hidden="true">
+            {t("form_consent_label")} <span className="text-gothic-gold">*</span>
+          </p>
+          <p className="mb-4 text-base text-gothic-ivory">{t("form_consent_sub")}</p>
+          <div className="space-y-3">
+            {CONSENTS.map((key) => (
+              <label
+                key={key}
+                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+              >
+                <input
+                  type="checkbox"
+                  id={key}
+                  name={key}
+                  onChange={() => clearError("consent")}
+                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
+                />
+                <span className="text-base text-gothic-body">{t(key)}</span>
+              </label>
+            ))}
+          </div>
+          {errors.consent && <FieldError id="consent-error" message={errors.consent} />}
+        </fieldset>
+
         <div className={CARD}>
           <label htmlFor="applicantEmail" className={LABEL}>
             {t("form_email_label")} <span className="text-gothic-gold">*</span>
@@ -330,35 +359,6 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             ))}
           </div>
           {errors.wishlist && <FieldError id="wishlist-error" message={errors.wishlist} />}
-        </fieldset>
-
-        <fieldset
-          className={`${CARD} ${errors.consent ? "border-red-500/80" : ""}`}
-          aria-describedby={errors.consent ? "consent-error" : undefined}
-        >
-          <legend className="sr-only">{t("form_consent_label")}</legend>
-          <p className={LABEL} aria-hidden="true">
-            {t("form_consent_label")} <span className="text-gothic-gold">*</span>
-          </p>
-          <p className="mb-4 text-base text-gothic-ivory">{t("form_consent_sub")}</p>
-          <div className="space-y-3">
-            {CONSENTS.map((key) => (
-              <label
-                key={key}
-                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
-              >
-                <input
-                  type="checkbox"
-                  id={key}
-                  name={key}
-                  onChange={() => clearError("consent")}
-                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
-                />
-                <span className="text-base text-gothic-body">{t(key)}</span>
-              </label>
-            ))}
-          </div>
-          {errors.consent && <FieldError id="consent-error" message={errors.consent} />}
         </fieldset>
 
         <div className="flex flex-col items-center pt-2">
