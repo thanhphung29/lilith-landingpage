@@ -10,9 +10,9 @@ import Turnstile from "./Turnstile";
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
-const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-lg";
+const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-xl";
 // Same as LABEL, with more room before the answer on the confirm step
-const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-lg";
+const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-xl";
 type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
 
 const WISHLIST_URL = "https://store.steampowered.com/app/4555610/";
@@ -23,11 +23,11 @@ type Entry = { email: string; discord: string; wishlist: "yes" | "no"; consents:
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
-  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 text-sm text-gothic-ivory placeholder-gothic-ivory/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
+  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 text-base text-gothic-ivory placeholder-gothic-ivory/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
-    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-sm text-red-400">
+    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-base text-red-400">
       <i className="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -181,7 +181,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       {step === "done" ? (
         // Takes the place of "Before you apply" once the application has gone through
         <section className="info-frame relative mb-8 p-2 sm:p-4">
-          <div className="space-y-4 text-sm text-gothic-body">
+          <div className="space-y-4 text-base text-gothic-body">
             <p className="leading-relaxed">
               {t.rich("apply_done_lead", { b: (chunks) => <strong className="font-bold">{chunks}</strong> })}
             </p>
@@ -197,12 +197,12 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                 </a>
               </p>
             </div>
-            <div className="space-y-1 text-xs text-gothic-ivory/80">
+            <div className="space-y-1 text-sm text-gothic-ivory/80">
               <p>{t("apply_done_spam")}</p>
               <p>{t("apply_done_allow")}</p>
             </div>
             <div>
-              <span className="mb-1 block text-xs font-bold tracking-wider text-gothic-gold">
+              <span className="mb-1 block text-sm font-bold tracking-wider text-gothic-gold">
                 {t("apply_done_warn_title")}
               </span>
               <ul className="list-inside list-disc space-y-1">
@@ -242,7 +242,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <label htmlFor="applicantEmail" className={LABEL}>
             {t("form_email_label")} <span className="text-gothic-gold">*</span>
           </label>
-          <p className="mb-4 text-sm text-gothic-ivory">{t("form_email_sub")}</p>
+          <p className="mb-4 text-base text-gothic-ivory">{t("form_email_sub")}</p>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
               <i className="fa-regular fa-envelope" aria-hidden="true" />
@@ -267,8 +267,8 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <label htmlFor="discordHandle" className={LABEL}>
             {t("form_discord_label")} <span className="text-gothic-gold">*</span>
           </label>
-          {t("form_discord_sub") && <p className="mb-3 text-sm text-gothic-ivory">{t("form_discord_sub")}</p>}
-          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-xs text-gothic-ivory">
+          {t("form_discord_sub") && <p className="mb-3 text-base text-gothic-ivory">{t("form_discord_sub")}</p>}
+          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-ivory">
             <p>
               <strong>{t("discord_hint_ex")}</strong>{" "}
               <span className="text-gothic-gold">lunar_tester</span>{" "}
@@ -307,7 +307,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             href={WISHLIST_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mb-4 block break-all text-sm text-gothic-gold underline hover:text-gothic-ivory"
+            className="mb-4 block break-all text-base text-gothic-gold underline hover:text-gothic-ivory"
           >
             {WISHLIST_URL}
           </a>
@@ -315,7 +315,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             {(["yes", "no"] as const).map((value) => (
               <label
                 key={value}
-                className="flex cursor-pointer items-start gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
               >
                 <input
                   type="radio"
@@ -323,9 +323,9 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                   name="wishlist"
                   value={value}
                   onChange={() => clearError("wishlist")}
-                  className="mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 accent-gothic-gold"
+                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
                 />
-                <span className="text-sm text-gothic-body">{t(`wishlist_${value}`)}</span>
+                <span className="text-base text-gothic-body">{t(`wishlist_${value}`)}</span>
               </label>
             ))}
           </div>
@@ -340,21 +340,21 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <p className={LABEL} aria-hidden="true">
             {t("form_consent_label")} <span className="text-gothic-gold">*</span>
           </p>
-          <p className="mb-4 text-sm text-gothic-ivory">{t("form_consent_sub")}</p>
+          <p className="mb-4 text-base text-gothic-ivory">{t("form_consent_sub")}</p>
           <div className="space-y-3">
             {CONSENTS.map((key) => (
               <label
                 key={key}
-                className="flex cursor-pointer items-start gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
               >
                 <input
                   type="checkbox"
                   id={key}
                   name={key}
                   onChange={() => clearError("consent")}
-                  className="mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 rounded-[4px] accent-gothic-gold"
+                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
                 />
-                <span className="text-sm text-gothic-body">{t(key)}</span>
+                <span className="text-base text-gothic-body">{t(key)}</span>
               </label>
             ))}
           </div>
@@ -388,7 +388,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
       {step === "confirm" && entry && (
         <section className="space-y-6">
-          <p className="text-center text-sm leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
+          <p className="text-center text-base leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
 
           <div className={CARD}>
             <p className={CONFIRM_LABEL}>
@@ -422,19 +422,19 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               href={WISHLIST_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-4 block break-all text-sm text-gothic-gold underline hover:text-gothic-ivory"
+              className="mb-4 block break-all text-base text-gothic-gold underline hover:text-gothic-ivory"
             >
               {WISHLIST_URL}
             </a>
-            <div className="flex items-start gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
+            <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
               <input
                 type="radio"
                 checked
                 readOnly
                 tabIndex={-1}
-                className="pointer-events-none mt-1 h-4 w-4 min-w-4 shrink-0 grow-0 basis-4 accent-gothic-gold"
+                className="pointer-events-none h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
               />
-              <span className="text-sm text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
+              <span className="text-base text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
             </div>
           </div>
 

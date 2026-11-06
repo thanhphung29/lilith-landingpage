@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
 
 const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
-const GUIDE_TITLE = "mb-1 block text-xs font-bold tracking-wider text-gothic-gold";
+const GUIDE_TITLE = "mb-1 block text-sm font-bold tracking-wider text-gothic-gold";
 
 // The text between <link>…</link> in a translation is itself the URL, so it is used as the href
 // too: changing a URL in the translation sheet then updates the link without touching code.
@@ -38,12 +38,12 @@ export default async function ApplyPage() {
           <ApplyForm
             guide={
             <section className="info-frame relative mb-8 p-2 sm:p-4">
-              <div className="space-y-4 text-sm text-gothic-body">
+              <div className="space-y-4 text-base text-gothic-body">
                 <div className="space-y-1">
                   <p className="leading-relaxed">
                     {t.rich("guide_intro", { link: linkTo })}
                   </p>
-                  <p className="text-xs text-gothic-ivory/80">{t("guide_intro_note")}</p>
+                  <p className="text-sm text-gothic-ivory/80">{t("guide_intro_note")}</p>
                 </div>
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_deadline_title")}</span>
@@ -52,12 +52,12 @@ export default async function ApplyPage() {
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_period_title")}</span>
                   <p className="font-bold text-gothic-ivory">{t("guide_period_val")}</p>
-                  <p className="mt-1 text-xs text-gothic-ivory/80">{t("info_period_note")}</p>
+                  <p className="mt-1 text-sm text-gothic-ivory/80">{t("info_period_note")}</p>
                 </div>
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_capacity_title")}</span>
                   <p className="font-bold text-gothic-ivory">{t("guide_capacity_val")}</p>
-                  <div className="mt-1 space-y-1 text-xs text-gothic-ivory/80">
+                  <div className="mt-1 space-y-1 text-sm text-gothic-ivory/80">
                     <p>{t("guide_capacity_note1")}</p>
                     <p>{t("guide_capacity_note2")}</p>
                   </div>
@@ -68,7 +68,7 @@ export default async function ApplyPage() {
                   <p className="mt-1 font-bold">
                     <ExternalLink href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</ExternalLink>
                   </p>
-                  <div className="mt-1 space-y-1 text-xs text-gothic-ivory/80">
+                  <div className="mt-1 space-y-1 text-sm text-gothic-ivory/80">
                     <p>{t("guide_notice_note1")}</p>
                     <p>{t("guide_notice_note2")}</p>
                   </div>
@@ -97,7 +97,7 @@ export default async function ApplyPage() {
           <div className="mt-8 flex justify-center">
             <Link
               href="/"
-              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-sm font-bold tracking-wider whitespace-nowrap"
+              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-base font-bold tracking-wider whitespace-nowrap"
             >
               <i className="fa-solid fa-circle-left" aria-hidden="true" />
               <span data-fit-box className="flex min-w-0 items-center">
