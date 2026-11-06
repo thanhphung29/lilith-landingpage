@@ -27,7 +27,7 @@ export default function LocaleSwitcher() {
       </span>
       <i className="fa-solid fa-chevron-down pointer-events-none pr-2 text-[10px] text-gothic-ivory/70 sm:hidden!" aria-hidden="true" />
       <select
-        className="absolute inset-0 h-full w-full cursor-pointer opacity-0 sm:hidden"
+        className="absolute inset-0 h-full w-full cursor-pointer opacity-[0.01] sm:hidden"
         value={locale}
         aria-label={t("label")}
         onChange={(e) =>
