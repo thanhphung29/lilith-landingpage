@@ -192,3 +192,27 @@ input[type="radio"]:checked {
   .btn-glow { animation: none; }
   .btn-particles { display: none; }
 }
+
+/* Browser autofill (saved email suggestions) paints its own light background and dark text;
+   keep the field's dark look instead. The browser's own background-color is !important and cannot
+   be overridden, so a big inset shadow paints over it. Two separate rules: an unknown selector
+   would otherwise invalidate the whole list. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 1000px #05070d inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #05070d inset !important;
+  -webkit-text-fill-color: var(--color-gothic-ivory) !important;
+  caret-color: var(--color-gothic-ivory);
+  transition: background-color 9999s ease-out 0s !important;
+}
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active {
+  box-shadow: 0 0 0 1000px #05070d inset !important;
+  -webkit-text-fill-color: var(--color-gothic-ivory) !important;
+  caret-color: var(--color-gothic-ivory);
+  transition: background-color 9999s ease-out 0s !important;
+}

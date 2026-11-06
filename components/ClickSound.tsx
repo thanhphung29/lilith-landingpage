@@ -22,8 +22,10 @@ export default function ClickSound() {
       });
     };
 
-    document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    // Capture phase: runs before React's handlers, which can disable the button (e.g. Submit)
+    // before a bubbling listener would see it
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
   }, []);
 
   return null;
