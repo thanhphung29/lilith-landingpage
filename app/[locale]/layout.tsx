@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, type Locale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Background from "@/components/Background";
+import ClickSound from "@/components/ClickSound";
 import Header from "@/components/Header";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
@@ -139,6 +140,7 @@ export default async function LocaleLayout({
       <body className="relative min-h-full flex flex-col selection:bg-gothic-gold selection:text-gothic-deep">
         <NextIntlClientProvider>
           <Background />
+          <ClickSound />
           <Header />
           {children}
         </NextIntlClientProvider>
