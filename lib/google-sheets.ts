@@ -1,6 +1,8 @@
 import { JWT } from "google-auth-library";
 
-type Application = { email: string; discord: string; wishlist: "yes" | "no"; locale: string };
+import { CONSENT_KEYS } from "./validation";
+
+type Application = { email: string; discord: string; wishlist: "yes" | "no"; locale: string; consents: string[] };
 
 function getConfig() {
   const spreadsheetId = process.env.SPREADSHEET_ID;
@@ -37,7 +39,7 @@ async function resolveSheetName(client: JWT, spreadsheetId: string, gid: string,
 }
 
 async function appendRow(client: JWT, spreadsheetId: string, sheetName: string, row: string[]) {
-  const range = encodeURIComponent(`'${sheetName}'!A:F`);
+  const range = encodeURIComponent(`'${sheetName}'!A:K`);
   await client.request({
     url:
       `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append` +
@@ -52,9 +54,11 @@ function formatJst(date: Date) {
   return new Date(date.getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 19).replace("T", " ");
 }
 
-// Appends one row: STT | Email | Discord | Added Tsurugihime (Yes/No) | Language | CreatedDate (JST, "yyyy-MM-dd HH:mm:ss").
+// Appends one row (columns A:K):
+// STT | Email | Discord | Added Tsurugihime (Yes/No) | Consent 1 .. Consent 5 ("Yes" for each agreement accepted)
+// | Language | CreatedDate (JST, "yyyy-MM-dd HH:mm:ss").
 // STT is the formula =ROW()-1 (row 1 is the header), so it always follows the row position.
-export async function appendApplication({ email, discord, wishlist, locale }: Application) {
+export async function appendApplication({ email, discord, wishlist, locale, consents }: Application) {
   const { spreadsheetId, sheetGid, sheetName } = getConfig();
   const client = getClient();
   const createdDate = formatJst(new Date());
@@ -67,6 +71,7 @@ export async function appendApplication({ email, discord, wishlist, locale }: Ap
     text(email),
     text(discord),
     text(wishlist === "yes" ? "Yes" : "No"),
+    ...CONSENT_KEYS.map((key) => text(consents.includes(key) ? "Yes" : "No")),
     text(locale),
     text(createdDate),
   ];

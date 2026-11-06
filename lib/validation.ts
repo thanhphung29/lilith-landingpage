@@ -42,3 +42,6 @@ export function isValidDiscord(value: string) {
 export function normalizeDiscord(value: string) {
   return value.trim();
 }
+
+// The five agreements on the form; all must be ticked, and the application records each one
+export const CONSENT_KEYS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5"] as const;

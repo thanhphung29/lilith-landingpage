@@ -3,12 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { EMAIL_MAX_LENGTH, isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
+import { CONSENT_KEYS as CONSENTS, EMAIL_MAX_LENGTH, isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
 import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
 import Turnstile from "./Turnstile";
-
-const CONSENTS = ["consent_1", "consent_2", "consent_3", "consent_4", "consent_5"] as const;
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
@@ -21,7 +19,7 @@ const WISHLIST_URL = "https://store.steampowered.com/app/4555610/";
 const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
 const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
 
-type Entry = { email: string; discord: string; wishlist: "yes" | "no" };
+type Entry = { email: string; discord: string; wishlist: "yes" | "no"; consents: string[] };
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
@@ -125,7 +123,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     }
 
     // Valid: go to the confirm step. Nothing is sent until the applicant confirms.
-    setEntry({ email, discord, wishlist: wishlist as Entry["wishlist"] });
+    setEntry({ email, discord, wishlist: wishlist as Entry["wishlist"], consents: CONSENTS.filter((key) => data.get(key)) });
     setStep("confirm");
   }
 

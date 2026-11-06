@@ -1,7 +1,7 @@
 import { appendApplication } from "@/lib/google-sheets";
 import { routing } from "@/i18n/routing";
 import { isApplyClosed } from "@/lib/event";
-import { isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
+import { CONSENT_KEYS, isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   }
 
 
-  let body: { email?: unknown; discord?: unknown; wishlist?: unknown; token?: unknown; locale?: unknown };
+  let body: { email?: unknown; discord?: unknown; wishlist?: unknown; consents?: unknown; token?: unknown; locale?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -21,10 +21,12 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.trim() : "";
   const discord = typeof body.discord === "string" ? normalizeDiscord(body.discord) : "";
   const wishlist = body.wishlist === "yes" || body.wishlist === "no" ? body.wishlist : null;
+  // Every agreement must have been accepted
+  const agreedAll = Array.isArray(body.consents) && CONSENT_KEYS.every((key) => (body.consents as unknown[]).includes(key));
   const token = typeof body.token === "string" ? body.token : "";
   const locale = routing.locales.find((l) => l === body.locale) ?? routing.defaultLocale;
 
-  if (!isValidEmail(email) || !isValidDiscord(discord) || !wishlist) {
+  if (!isValidEmail(email) || !isValidDiscord(discord) || !wishlist || !agreedAll) {
     return Response.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
   if (!token) {
@@ -56,7 +58,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    await appendApplication({ email, discord, wishlist, locale });
+    await appendApplication({ email, discord, wishlist, locale, consents: [...CONSENT_KEYS] });
   } catch (err) {
     console.error("Failed to write the application to Google Sheets", err);
     return Response.json({ ok: false, error: "server_error" }, { status: 500 });
