@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { CONSENT_KEYS as CONSENTS, EMAIL_MAX_LENGTH, isValidDiscord, isValidEmail, normalizeDiscord } from "@/lib/validation";
 import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
+import ButtonParticles from "./ButtonParticles";
 import Turnstile from "./Turnstile";
 
 const CARD =
@@ -374,14 +375,23 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             </div>
             {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
           </div>
-          <button
-            type="submit"
-            disabled={!filled || !token}
-            className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
-          >
-            <i className="fa-solid fa-paper-plane" aria-hidden="true" />
-            <span>{t("btn_next")}</span>
-          </button>
+          {/* Same glow + drifting particles as the Apply button on the top page (only while it can be clicked) */}
+          <div className="btn-wrap">
+            {filled && token && (
+              <>
+                <div className="btn-glow" aria-hidden="true" />
+                <ButtonParticles />
+              </>
+            )}
+            <button
+              type="submit"
+              disabled={!filled || !token}
+              className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
+            >
+              <i className="fa-solid fa-paper-plane" aria-hidden="true" />
+              <span>{t("btn_next")}</span>
+            </button>
+          </div>
         </div>
       </form>
 
@@ -438,15 +448,23 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           </div>
 
           <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center sm:gap-4">
-            <button
-              type="button"
-              disabled={submitting}
-              onClick={sendApplication}
-              className="btn-img flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <i className="fa-solid fa-paper-plane" aria-hidden="true" />
-              <span>{t("btn_submit")}</span>
-            </button>
+            <div className="btn-wrap">
+              {!submitting && (
+                <>
+                  <div className="btn-glow" aria-hidden="true" />
+                  <ButtonParticles />
+                </>
+              )}
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={sendApplication}
+                className="btn-img flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <i className="fa-solid fa-paper-plane" aria-hidden="true" />
+                <span>{t("btn_submit")}</span>
+              </button>
+            </div>
             <button
               type="button"
               disabled={submitting}
