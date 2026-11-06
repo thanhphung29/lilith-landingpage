@@ -34,6 +34,27 @@ function FieldError({ id, message }: { id: string; message: string }) {
   );
 }
 
+// What the applicant has typed so far. It lives in memory only: it survives leaving the page and
+// coming back (even if Next drops the cached copy of the page), and is gone on a refresh or once
+// the application has been sent.
+const draft = { email: "", discord: "", wishlist: "", consents: [] as string[] };
+
+function clearDraft() {
+  draft.email = "";
+  draft.discord = "";
+  draft.wishlist = "";
+  draft.consents = [];
+}
+
+function isDraftComplete() {
+  return (
+    draft.email.trim() !== "" &&
+    draft.discord.trim() !== "" &&
+    draft.wishlist !== "" &&
+    CONSENTS.every((key) => draft.consents.includes(key))
+  );
+}
+
 export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const t = useTranslations("Landing");
   const locale = useLocale();
@@ -54,18 +75,31 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const [captchaKey, setCaptchaKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   // Every field filled in and every agreement ticked (format is still checked on submit)
-  const [filled, setFilled] = useState(false);
+  const [filled, setFilled] = useState(isDraftComplete);
+  const stepRef = useRef(step);
 
-  // Next keeps this page's state alive when navigating away (it is only hidden), so close the
-  // popup when leaving. Effects are cleaned up when the page is hidden.
+  // Next keeps this page's state alive when navigating away (it is only hidden), and effects are
+  // cleaned up when the page is hidden. What the applicant typed stays, so coming back finds the
+  // form as they left it; only a finished application (thank-you step) starts over.
+  useEffect(() => {
+    stepRef.current = step;
+  }, [step]);
+
   useEffect(() => {
     const form = formRef.current;
     return () => {
-      setStep("form");
-      scrolledStep.current = "form";
-      setEntry(null);
-      setErrors({});
-      form?.reset();
+      if (stepRef.current === "done") {
+        clearDraft();
+        setStep("form");
+        scrolledStep.current = "form";
+        setEntry(null);
+        setErrors({});
+        setFilled(false);
+        form?.reset();
+      } else {
+        // Coming back to this step must not scroll
+        scrolledStep.current = stepRef.current;
+      }
     };
   }, []);
 
@@ -87,6 +121,10 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   function checkFilled() {
     if (!formRef.current) return;
     const data = new FormData(formRef.current);
+    draft.email = String(data.get("email") ?? "");
+    draft.discord = String(data.get("discord") ?? "");
+    draft.wishlist = String(data.get("wishlist") ?? "");
+    draft.consents = CONSENTS.filter((key) => data.get(key));
     setFilled(
       String(data.get("email") ?? "").trim() !== "" &&
         String(data.get("discord") ?? "").trim() !== "" &&
@@ -145,6 +183,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       });
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
+        clearDraft();
         setStep("done");
         return;
       }
@@ -257,6 +296,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                   type="checkbox"
                   id={key}
                   name={key}
+                  defaultChecked={draft.consents.includes(key)}
                   onChange={() => clearError("consent")}
                   className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
                 />
@@ -282,6 +322,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               name="email"
               autoComplete="email"
               maxLength={EMAIL_MAX_LENGTH}
+              defaultValue={draft.email}
               placeholder="yourname@example.com"
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -313,6 +354,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               id="discordHandle"
               name="discord"
               autoComplete="off"
+              defaultValue={draft.discord}
               placeholder="username"
               aria-invalid={!!errors.discord}
               aria-describedby={errors.discord ? "discord-error" : undefined}
@@ -342,6 +384,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                   id={`wishlist_${value}`}
                   name="wishlist"
                   value={value}
+                  defaultChecked={draft.wishlist === value}
                   onChange={() => clearError("wishlist")}
                   className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
                 />
