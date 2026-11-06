@@ -16,7 +16,6 @@ const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-xl";
 const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-xl";
 type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
 
-const WISHLIST_URL = "https://store.steampowered.com/app/4555610/";
 const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
 const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
 
@@ -332,15 +331,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <p className={LABEL} aria-hidden="true">
             {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
           </p>
-          <a
-            href={WISHLIST_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mb-4 block break-all text-base text-gothic-gold underline hover:text-gothic-ivory"
-          >
-            {WISHLIST_URL}
-          </a>
-          <div className="space-y-3">
+          <div className="mt-3 space-y-3">
             {(["yes", "no"] as const).map((value) => (
               <label
                 key={value}
@@ -427,14 +418,6 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             <p className={CONFIRM_LABEL}>
               {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
             </p>
-            <a
-              href={WISHLIST_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mb-4 block break-all text-base text-gothic-gold underline hover:text-gothic-ivory"
-            >
-              {WISHLIST_URL}
-            </a>
             <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
               <input
                 type="radio"
