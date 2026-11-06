@@ -19,7 +19,7 @@ export default function LocaleSwitcher() {
   const router = useRouter();
 
   return (
-    <div className="relative flex h-9 w-[78px] leading-none shrink-0 items-center gap-2 rounded border border-gothic-border bg-gothic-navy/90 transition-colors sm:w-[180px] hover:border-gothic-gold">
+    <label className="relative flex h-9 w-[78px] leading-none shrink-0 items-center gap-2 rounded border border-gothic-border bg-gothic-navy/90 transition-colors sm:w-[180px] hover:border-gothic-gold">
       {/* Mobile: the box is too narrow for the full name, so it shows the code only, while the
           (invisible) select on top opens a list of language names */}
       <span className="pointer-events-none flex-1 pl-2 text-xs text-gothic-ivory sm:hidden" aria-hidden="true">
@@ -60,6 +60,6 @@ export default function LocaleSwitcher() {
         className="fa-solid fa-chevron-down pointer-events-none absolute top-1/2 right-[10px] -translate-y-1/2 text-[10px] text-gothic-ivory/70 max-sm:hidden!"
         aria-hidden="true"
       />
-    </div>
+    </label>
   );
 }
