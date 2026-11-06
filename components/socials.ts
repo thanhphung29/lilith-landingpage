@@ -3,4 +3,5 @@ export const SOCIALS = [
   { label: "Discord", href: "https://discord.gg/rckDPVCbVe", icon: "fa-discord" },
   { label: "X", href: "https://x.com/Fahrenheit_213", icon: "fa-x-twitter" },
   { label: "YouTube", href: "https://www.youtube.com/@Fahrenheit213", icon: "fa-youtube" },
+  { label: "Facebook", href: "https://www.facebook.com/Fahrenheit213/", icon: "fa-facebook" },
 ];

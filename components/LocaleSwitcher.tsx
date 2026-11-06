@@ -5,8 +5,12 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import localeNames from "@/i18n/locale-names.json";
 import { routing } from "@/i18n/routing";
 
-// Japanese first, then the rest in routing order
-const LOCALES: (typeof routing.locales)[number][] = ["ja", ...routing.locales.filter((l) => l !== "ja")];
+// Japanese, English, Simplified Chinese, Traditional Chinese first; the rest in routing order
+const FIRST_LOCALES: (typeof routing.locales)[number][] = ["ja", "en", "zh-CN", "zh-TW"];
+const LOCALES: (typeof routing.locales)[number][] = [
+  ...FIRST_LOCALES,
+  ...routing.locales.filter((l) => !FIRST_LOCALES.includes(l)),
+];
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");

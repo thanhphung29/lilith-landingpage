@@ -109,7 +109,7 @@ export default async function ApplyPage() {
           </div>
         </div>
       </main>
-      <Footer showSocial />
+      <Footer />
     </>
   );
 }
