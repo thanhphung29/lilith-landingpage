@@ -20,7 +20,7 @@ function ExternalLink({ href, children }: { href: string; children: React.ReactN
     <a
       href={href}
       {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="break-all text-gothic-gold underline hover:text-gothic-ivory"
+      className="break-all text-gothic-gold underline hover:text-gothic-body"
     >
       {children}
     </a>
@@ -43,21 +43,21 @@ export default async function ApplyPage() {
                   <p className="leading-relaxed">
                     {t.rich("guide_intro", { link: linkTo })}
                   </p>
-                  <p className="text-sm text-gothic-ivory/80">{t("guide_intro_note")}</p>
+                  <p className="text-sm text-gothic-body">{t("guide_intro_note")}</p>
                 </div>
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_deadline_title")}</span>
-                  <p className="font-bold text-gothic-ivory">{t("guide_deadline_val")}</p>
+                  <p className="font-bold text-gothic-body">{t("guide_deadline_val")}</p>
                 </div>
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_period_title")}</span>
-                  <p className="font-bold text-gothic-ivory">{t("guide_period_val")}</p>
-                  <p className="mt-1 text-sm text-gothic-ivory/80">{t("info_period_note")}</p>
+                  <p className="font-bold text-gothic-body">{t("guide_period_val")}</p>
+                  <p className="mt-1 text-sm text-gothic-body">{t("info_period_note")}</p>
                 </div>
                 <div>
                   <span className={GUIDE_TITLE}>{t("guide_capacity_title")}</span>
-                  <p className="font-bold text-gothic-ivory">{t("guide_capacity_val")}</p>
-                  <div className="mt-1 space-y-1 text-sm text-gothic-ivory/80">
+                  <p className="font-bold text-gothic-body">{t("guide_capacity_val")}</p>
+                  <div className="mt-1 space-y-1 text-sm text-gothic-body">
                     <p>{t("guide_capacity_note1")}</p>
                     <p>{t("guide_capacity_note2")}</p>
                   </div>
@@ -68,7 +68,7 @@ export default async function ApplyPage() {
                   <p className="mt-1 font-bold">
                     <ExternalLink href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</ExternalLink>
                   </p>
-                  <div className="mt-1 space-y-1 text-sm text-gothic-ivory/80">
+                  <div className="mt-1 space-y-1 text-sm text-gothic-body">
                     <p>{t("guide_notice_note1")}</p>
                     <p>{t("guide_notice_note2")}</p>
                   </div>
@@ -97,7 +97,7 @@ export default async function ApplyPage() {
           <div className="mt-8 flex justify-center">
             <Link
               href="/"
-              className="btn-top-img inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-base font-bold tracking-wider whitespace-nowrap"
+              className="btn-top-img text-gothic-body! inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-base font-bold tracking-wider whitespace-nowrap"
             >
               <i className="fa-solid fa-circle-left" aria-hidden="true" />
               <span data-fit-box className="flex min-w-0 items-center">

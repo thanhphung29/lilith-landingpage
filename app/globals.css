@@ -203,8 +203,8 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   box-shadow: 0 0 0 1000px #05070d inset !important;
   -webkit-box-shadow: 0 0 0 1000px #05070d inset !important;
-  -webkit-text-fill-color: var(--color-gothic-ivory) !important;
-  caret-color: var(--color-gothic-ivory);
+  -webkit-text-fill-color: var(--color-gothic-body) !important;
+  caret-color: var(--color-gothic-body);
   transition: background-color 9999s ease-out 0s !important;
 }
 input:autofill,
@@ -212,7 +212,20 @@ input:autofill:hover,
 input:autofill:focus,
 input:autofill:active {
   box-shadow: 0 0 0 1000px #05070d inset !important;
-  -webkit-text-fill-color: var(--color-gothic-ivory) !important;
-  caret-color: var(--color-gothic-ivory);
+  -webkit-text-fill-color: var(--color-gothic-body) !important;
+  caret-color: var(--color-gothic-body);
   transition: background-color 9999s ease-out 0s !important;
 }
+
+/* Thin gold scrollbar for the language dropdown list */
+.dropdown-scroll {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--color-gothic-gold-dim) transparent;
+}
+.dropdown-scroll::-webkit-scrollbar { width: 6px; }
+.dropdown-scroll::-webkit-scrollbar-track { background: transparent; margin: 4px 0; }
+.dropdown-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-gothic-gold-dim);
+  border-radius: 3px;
+}
+.dropdown-scroll::-webkit-scrollbar-thumb:hover { background: var(--color-gothic-gold); }

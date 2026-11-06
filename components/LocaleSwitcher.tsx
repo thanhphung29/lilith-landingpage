@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { type Locale, useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import localeNames from "@/i18n/locale-names.json";
@@ -12,54 +13,86 @@ const LOCALES: (typeof routing.locales)[number][] = [
   ...routing.locales.filter((l) => !FIRST_LOCALES.includes(l)),
 ];
 
+// A custom dropdown list instead of a native <select>: the list gets the same border, radius and
+// background as the box, and behaves the same on every browser (iOS Safari needed a second tap
+// to reopen a native select).
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Close on a tap/click outside or Escape
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const choose = (l: Locale) => {
+    setOpen(false);
+    if (l !== locale) router.replace(pathname, { locale: l });
+  };
 
   return (
-    <label className="relative flex h-9 w-[78px] leading-none shrink-0 items-center gap-2 rounded border border-gothic-border bg-gothic-navy/90 transition-colors sm:w-[180px] hover:border-gothic-gold">
-      {/* Mobile: the box is too narrow for the full name, so it shows the code only, while the
-          (invisible) select on top opens a list of language names */}
-      <span className="pointer-events-none flex-1 pl-2 text-xs text-gothic-ivory sm:hidden" aria-hidden="true">
-        {locale.toUpperCase()}
-      </span>
-      <i className="fa-solid fa-chevron-down pointer-events-none pr-2 text-[10px] text-gothic-ivory/70 sm:hidden!" aria-hidden="true" />
-      <select
-        className="absolute inset-0 h-full w-full cursor-pointer opacity-[0.01] sm:hidden"
-        value={locale}
+    <div ref={rootRef} className="relative h-9 w-[78px] shrink-0 leading-none sm:w-[180px]">
+      <button
+        ref={buttonRef}
+        type="button"
         aria-label={t("label")}
-        onChange={(e) =>
-          router.replace(pathname, { locale: e.target.value as Locale })
-        }
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="flex h-full w-full cursor-pointer items-center rounded border border-gothic-border bg-gothic-navy/90 pr-[10px] pl-2 text-xs text-gothic-ivory transition-colors hover:border-gothic-gold focus-visible:border-gothic-gold focus-visible:outline-none sm:pl-3 sm:text-sm"
       >
-        {LOCALES.map((l) => (
-          <option key={l} value={l} className="bg-gothic-navy">
-            {localeNames[l]}
-          </option>
-        ))}
-      </select>
-      {/* Each language's own name only, e.g. "English", "日本語" */}
-      <select
-        className="hidden h-full w-full cursor-pointer appearance-none bg-transparent pr-8 pl-3 text-xs text-gothic-ivory focus:outline-none sm:text-sm sm:block"
-        value={locale}
-        aria-label={t("label")}
-        onChange={(e) =>
-          router.replace(pathname, { locale: e.target.value as Locale })
-        }
-      >
-        {LOCALES.map((l) => (
-          <option key={l} value={l} className="bg-gothic-navy">
-            {localeNames[l]}
-          </option>
-        ))}
-      </select>
-      {/* PC: custom arrow, 10px from the right edge */}
-      <i
-        className="fa-solid fa-chevron-down pointer-events-none absolute top-1/2 right-[10px] -translate-y-1/2 text-[10px] text-gothic-ivory/70 max-sm:hidden!"
-        aria-hidden="true"
-      />
-    </label>
+        {/* Mobile: the box is too narrow for the full name, so only the code */}
+        <span className="flex-1 truncate text-left">
+          <span className="sm:hidden">{locale.toUpperCase()}</span>
+          <span className="max-sm:hidden">{localeNames[locale as keyof typeof localeNames]}</span>
+        </span>
+        <i
+          className={`fa-solid fa-chevron-down text-[10px] text-gothic-ivory/70 transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {open && (
+        <ul
+          role="listbox"
+          aria-label={t("label")}
+          className="absolute top-full right-0 z-50 dropdown-scroll mt-1 max-h-[60vh] w-[180px] overflow-y-auto rounded border border-gothic-border bg-gothic-navy py-1 shadow-lg"
+        >
+          {LOCALES.map((l) => (
+            <li key={l} role="option" aria-selected={l === locale}>
+              <button
+                type="button"
+                onClick={() => choose(l)}
+                className={`block w-full cursor-pointer px-3 py-2 text-left text-sm transition-colors hover:bg-white/10 focus-visible:bg-white/10 focus-visible:outline-none ${
+                  l === locale ? "text-gothic-gold" : "text-gothic-ivory"
+                }`}
+              >
+                {localeNames[l]}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

@@ -11,9 +11,9 @@ import Turnstile from "./Turnstile";
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
-const LABEL = "mb-1 block text-base font-bold text-gothic-ivory sm:text-xl";
+const LABEL = "mb-1 block text-base font-bold text-gothic-body sm:text-xl";
 // Same as LABEL, with more room before the answer on the confirm step
-const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-ivory sm:text-xl";
+const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-body sm:text-xl";
 type Errors = { email?: string; discord?: string; wishlist?: string; consent?: string; captcha?: string };
 
 const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
@@ -23,11 +23,11 @@ type Entry = { email: string; discord: string; wishlist: "yes" | "no"; consents:
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
-  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 text-base text-gothic-ivory placeholder-gothic-ivory/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
+  "w-full rounded border border-[#97691a]/60 bg-[#05070d] py-3 pr-4 pl-10 text-base text-gothic-body placeholder-gothic-body/40 transition-all focus:border-[#bfae67] focus:ring-1 focus:ring-[#bfae67] focus:outline-none";
 
 function FieldError({ id, message }: { id: string; message: string }) {
   return (
-    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-base text-red-400">
+    <p id={id} role="alert" className="mt-2 flex items-start gap-2 text-base text-gothic-gold">
       <i className="fa-solid fa-circle-exclamation mt-0.5" aria-hidden="true" />
       <span>{message}</span>
     </p>
@@ -213,7 +213,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       <div ref={headingRef} className="mb-8 scroll-mt-24 text-center">
         <h1
           // German titles ("Bewerbungsformular") are long: smaller below 375px so they stay on one line
-          className={`mt-6 text-3xl font-black tracking-wide text-gothic-ivory sm:text-4xl ${locale === "de" ? "max-[374px]:text-2xl" : ""}`}
+          className={`mt-6 text-3xl font-black tracking-wide text-gothic-body sm:text-4xl ${locale === "de" ? "max-[374px]:text-2xl" : ""}`}
         >
           {step === "done" ? t("apply_done_title") : step === "confirm" ? t("confirm_title") : t("form_main_title")}
         </h1>
@@ -233,13 +233,13 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               <p className="mt-1 font-bold">
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
-                  className="text-gothic-gold underline hover:text-gothic-ivory"
+                  className="text-gothic-gold underline hover:text-gothic-body"
                 >
                   {SUPPORT_EMAIL}
                 </a>
               </p>
             </div>
-            <div className="space-y-1 text-sm text-gothic-ivory/80">
+            <div className="space-y-1 text-sm text-gothic-body">
               <p>{t("apply_done_spam")}</p>
               <p>{t("apply_done_allow")}</p>
             </div>
@@ -256,7 +256,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                         href={DISCORD_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="break-all text-gothic-gold underline hover:text-gothic-ivory"
+                        className="break-all text-gothic-gold underline hover:text-gothic-body"
                       >
                         {chunks}
                       </a>
@@ -288,7 +288,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <p className={LABEL} aria-hidden="true">
             {t("form_consent_label")} <span className="text-gothic-gold">*</span>
           </p>
-          <p className="mb-4 text-base text-gothic-ivory">{t("form_consent_sub")}</p>
+          <p className="mb-4 text-base text-gothic-body">{t("form_consent_sub")}</p>
           <div className="space-y-3">
             {CONSENTS.map((key) => (
               <label
@@ -314,7 +314,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <label htmlFor="applicantEmail" className={LABEL}>
             {t("form_email_label")} <span className="text-gothic-gold">*</span>
           </label>
-          <p className="mb-4 text-base text-gothic-ivory">{t("form_email_sub")}</p>
+          <p className="mb-4 text-base text-gothic-body">{t("form_email_sub")}</p>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
               <i className="fa-regular fa-envelope" aria-hidden="true" />
@@ -340,13 +340,14 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <label htmlFor="discordHandle" className={LABEL}>
             {t("form_discord_label")} <span className="text-gothic-gold">*</span>
           </label>
-          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-ivory">
+          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-body">
             <p>
               <strong>{t("discord_hint_ex")}</strong>{" "}
-              <span className="text-gothic-gold">lunar_tester</span>{" "}
-              <span className="text-gothic-ivory/60">{t("discord_hint_1")}</span>
+              <span className="text-gothic-gold">lunar_tester</span>
+              <br />
+              <span className="text-gothic-body">{t("discord_hint_1")}</span>
             </p>
-            <p className="text-[#fcd34d]">{t("discord_hint_warn")}</p>
+            <p className="text-gothic-gold">{t("discord_hint_warn")}</p>
           </div>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
@@ -412,21 +413,14 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             </div>
             {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
           </div>
-          {/* Same glow + drifting particles as the Apply button on the top page (only while it can be clicked) */}
           <div className="btn-wrap">
-            {filled && token && (
-              <>
-                <div className="btn-glow" aria-hidden="true" />
-                <ButtonParticles />
-              </>
-            )}
             <button
               type="submit"
               disabled={!filled || !token}
-              className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
+              className="btn-img text-gothic-body! flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
             >
-              <i className="fa-solid fa-paper-plane" aria-hidden="true" />
               <span>{t("btn_next")}</span>
+              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -488,7 +482,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
                 type="button"
                 disabled={submitting}
                 onClick={sendApplication}
-                className="btn-img flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-img text-gothic-body! flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <i className="fa-solid fa-paper-plane" aria-hidden="true" />
                 <span>{t("btn_submit")}</span>
@@ -498,7 +492,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               type="button"
               disabled={submitting}
               onClick={() => setStep("form")}
-              className="btn-top-img flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-top-img text-gothic-body! flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
             >
               <i className="fa-solid fa-pen" aria-hidden="true" />
               <span>{t("confirm_btn_edit")}</span>
