@@ -381,7 +381,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             className="btn-img flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
           >
             <i className="fa-solid fa-paper-plane" aria-hidden="true" />
-            <span>{t("btn_submit")}</span>
+            <span>{t("btn_next")}</span>
           </button>
         </div>
       </form>
