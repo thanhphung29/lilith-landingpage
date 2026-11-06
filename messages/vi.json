@@ -1,16 +1,4 @@
 {
-  "Metadata": {
-    "title": "Lilith",
-    "description": "Trang giới thiệu Lilith"
-  },
-  "HomePage": {
-    "logoAlt": "Logo Next.js",
-    "vercelAlt": "Biểu tượng Vercel",
-    "title": "Để bắt đầu, hãy chỉnh sửa tệp <code>page.tsx</code>.",
-    "description": "Bạn cần điểm khởi đầu hoặc thêm hướng dẫn? Hãy xem <templates>Mẫu</templates> hoặc trung tâm <learning>Học tập</learning>.",
-    "deploy": "Triển khai ngay",
-    "docs": "Tài liệu"
-  },
   "LocaleSwitcher": {
     "label": "Ngôn ngữ"
   },

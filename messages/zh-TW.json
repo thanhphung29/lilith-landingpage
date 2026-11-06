@@ -1,16 +1,4 @@
 {
-  "Metadata": {
-    "title": "Lilith",
-    "description": "Lilith ランディングページ"
-  },
-  "HomePage": {
-    "logoAlt": "Next.js ロゴ",
-    "vercelAlt": "Vercel ロゴマーク",
-    "title": "まずは <code>page.tsx</code> ファイルを編集してください。",
-    "description": "始め方やガイドをお探しですか？<templates>テンプレート</templates>または<learning>ラーニング</learning>センターをご覧ください。",
-    "deploy": "今すぐデプロイ",
-    "docs": "ドキュメント"
-  },
   "LocaleSwitcher": {
     "label": "言語"
   },

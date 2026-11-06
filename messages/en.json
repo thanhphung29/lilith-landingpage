@@ -1,16 +1,4 @@
 {
-  "Metadata": {
-    "title": "Lilith",
-    "description": "Lilith landing page"
-  },
-  "HomePage": {
-    "logoAlt": "Next.js logo",
-    "vercelAlt": "Vercel logomark",
-    "title": "To get started, edit the <code>page.tsx</code> file.",
-    "description": "Looking for a starting point or more instructions? Head over to <templates>Templates</templates> or the <learning>Learning</learning> center.",
-    "deploy": "Deploy Now",
-    "docs": "Documentation"
-  },
   "LocaleSwitcher": {
     "label": "Language"
   },
