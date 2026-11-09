@@ -112,7 +112,7 @@ export async function generateMetadata({
     },
     alternates: {
       languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `/${l}`]),
+        routing.locales.map((l) => [l, `/${l}/cbt`]),
       ),
     },
   };

@@ -96,7 +96,7 @@ export default async function ApplyPage() {
 
           <div className="mt-8 flex justify-center">
             <Link
-              href="/"
+              href="/cbt"
               className="btn-top-img text-gothic-body! inline-flex cursor-pointer items-center justify-center gap-2 px-6 text-base font-bold tracking-wider whitespace-nowrap"
             >
               <i className="fa-solid fa-circle-left" aria-hidden="true" />

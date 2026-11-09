@@ -26,7 +26,7 @@ export default function ApplyButton({ label, closedLabel }: { label: string; clo
       <div className="btn-glow" aria-hidden="true" />
       <ButtonParticles />
       <Link
-        href="/apply"
+        href="/cbt/apply"
         className="btn-img flex items-center justify-center gap-3 text-lg font-black uppercase tracking-wider"
       >
         {label}

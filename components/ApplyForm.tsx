@@ -116,7 +116,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   // title already show "closed"). The pathname check stops a hidden, cached copy of this page
   // from redirecting someone who is already elsewhere.
   useEffect(() => {
-    if (closed && pathname === "/apply") router.replace("/");
+    if (closed && pathname === "/cbt/apply") router.replace("/cbt");
   }, [closed, pathname, router]);
 
   // Bring the new step into view (the page is long and the header is fixed)
@@ -198,7 +198,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       }
       // The deadline passed while the application was on its way
       if (result.error === "closed") {
-        router.replace("/");
+        router.replace("/cbt");
         return;
       }
       // Back to the form, with the reason shown under the captcha
