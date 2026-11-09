@@ -73,6 +73,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const [errors, setErrors] = useState<Errors>({});
   const [token, setToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
+  const [formKey, setFormKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   // Every field filled in and every agreement ticked (format is still checked on submit)
   const [filled, setFilled] = useState(isDraftComplete);
@@ -86,7 +87,6 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   }, [step]);
 
   useEffect(() => {
-    const form = formRef.current;
     return () => {
       if (stepRef.current === "done") {
         clearDraft();
@@ -95,7 +95,10 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         setEntry(null);
         setErrors({});
         setFilled(false);
-        form?.reset();
+        // Remount the form instead of form.reset(): reset() clears the radios/checkboxes in the DOM
+        // but React still remembers them as checked, so ticking the same one again fires no
+        // change event and the Next button stays disabled
+        setFormKey((k) => k + 1);
       } else if (stepRef.current === "confirm") {
         // Leaving from the confirm step: coming back lands on the form with what was entered
         // (the fields keep their values), not on the confirm step
@@ -279,6 +282,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
     <div ref={formAreaRef} className="scroll-mt-24">
       <form
+        key={formKey}
         ref={formRef}
         onSubmit={handleSubmit}
         onChange={checkFilled}
