@@ -76,7 +76,7 @@ export default function LocaleSwitcher() {
         <ul
           role="listbox"
           aria-label={t("label")}
-          className="absolute top-full right-0 z-50 dropdown-scroll mt-1 max-h-[60vh] w-[180px] overflow-y-auto rounded border border-gothic-border bg-gothic-navy py-1 shadow-lg"
+          className="absolute top-full right-0 z-50 dropdown-scroll mt-1 max-h-[65vh] w-[180px] overflow-y-auto rounded border border-gothic-border bg-gothic-navy py-1 shadow-lg"
         >
           {LOCALES.map((l) => (
             <li key={l} role="option" aria-selected={l === locale}>
