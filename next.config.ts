@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   experimental: {
     agentFeedback: true,
   },
+
+  // Optimize production Docker image
+  output: "standalone",
+
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
