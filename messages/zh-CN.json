@@ -85,6 +85,6 @@
     "apply_done_allow": "*为确保您能收到邮件，请将此地址添加到通讯录，或设置为允许接收。",
     "apply_done_warn_title": "若有下列情况，将不会被列入抽签对象，敬请留意：",
     "apply_done_warn_discord": "无法确认您所填写的 Discord 用户名。",
-    "apply_done_warn_server": "无法确认您已加入《冥月悸动》官方 Discord 服务器（<link>https://discord.gg/rckDPVCbVe</link>）。"
+    "apply_done_warn_server": "无法在《冥月悸动》官方 Discord 服务器（<link>https://discord.gg/rckDPVCbVe</link>）中确认您所填写的 Discord 用户名。"
   }
 }

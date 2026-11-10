@@ -72,7 +72,7 @@
     "wishlist_no": "Todavía no (lo añadiré)",
     "err_wishlist_required": "Elige una opción.",
     "confirm_title": "Confirma tu inscripción",
-    "confirm_desc": "Revisa los datos introducidos. Tu inscripción se enviará al pulsar Enviar.",
+    "confirm_desc": "Revisa los datos introducidos. Tu inscripción se completará al pulsar «Enviar».",
     "confirm_email_label": "Correo electrónico",
     "confirm_discord_label": "«Nombre de usuario» de Discord",
     "confirm_wishlist_label": "«LUNAR PULSE» en la lista de deseados de Steam",
@@ -85,6 +85,6 @@
     "apply_done_allow": "*Para asegurarte de recibirlo, añade esta dirección a tus contactos o permite los correos de esa dirección.",
     "apply_done_warn_title": "Ten en cuenta que no participarás en el sorteo si:",
     "apply_done_warn_discord": "No podemos verificar el nombre de usuario de Discord que has introducido.",
-    "apply_done_warn_server": "No podemos confirmar que te hayas unido al servidor oficial de Discord de LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
+    "apply_done_warn_server": "No encontramos el nombre de usuario de Discord que has introducido en el servidor oficial de Discord de LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
   }
 }

@@ -18,15 +18,15 @@
     "guide_header": "報名前請確認",
     "guide_intro": "這是《冥月悸動》（<link>https://store.steampowered.com/app/4555610/</link>）封閉式對戰測試的報名表單，讓您搶先體驗遊戲對戰。",
     "guide_intro_note": "※您填寫的資料僅用於本次測試的營運及開發參考。",
-    "guide_deadline_title": "◆報名截止（日本時間）",
+    "guide_deadline_title": "◆報名截止（JST）",
     "guide_deadline_val": "2026年11月19日（週四）23:59（JST）",
-    "guide_period_title": "◆測試期間（日本時間）",
+    "guide_period_title": "◆測試期間（JST）",
     "guide_period_val": "2026年11月23日（週一）12:00 至 12月7日（週一）11:59",
     "info_period_note": "※ 日期可能在未事先通知下調整。",
     "guide_capacity_title": "◆招募人數",
     "guide_capacity_val": "100名",
     "guide_capacity_note1": "※若報名人數超過名額，將以抽籤方式決定。",
-    "guide_capacity_note2": "※中選通知僅會寄給中選者，將於【2026年11月20日（五）23:59】（日本時間）前以電子郵件寄出，並附上參加方式的詳細說明。",
+    "guide_capacity_note2": "※中選通知僅會寄給中選者，將於【2026年11月20日（五）23:59】（JST）前以電子郵件寄出，並附上參加方式的詳細說明。",
     "info_notice_title": "◆ 入選通知",
     "info_notice_desc": "中選者將會收到來自下列地址的電子郵件。",
     "guide_notice_note1": "※郵件可能會被歸類至垃圾郵件匣，請一併確認。",
@@ -85,6 +85,6 @@
     "apply_done_allow": "*為確保您能收到郵件，請將此地址加入通訊錄，或設定允許接收。",
     "apply_done_warn_title": "若有下列情形，將不列入抽籤對象，敬請留意：",
     "apply_done_warn_discord": "無法確認您所填寫的 Discord 使用者名稱。",
-    "apply_done_warn_server": "無法確認您已加入《冥月悸動》官方 Discord 伺服器（<link>https://discord.gg/rckDPVCbVe</link>）。"
+    "apply_done_warn_server": "無法在《冥月悸動》官方 Discord 伺服器（<link>https://discord.gg/rckDPVCbVe</link>）中確認您所填寫的 Discord 使用者名稱。"
   }
 }

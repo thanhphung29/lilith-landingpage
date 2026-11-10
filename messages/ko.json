@@ -9,7 +9,7 @@
     "hero_title": "참가자 모집!",
     "hero_title_close": "신청이 마감되었습니다.",
     "info_deadline_title": "신청 기간",
-    "info_deadline_val": "11월 12일(목) 12:00 ~ 11월 19일(목) 23:59 (JST)",
+    "info_deadline_val": "11월 12일(목) 12:00 ~ 11월 19일(목) 23:59 (일본 시간)",
     "btn_back_to_previous": "첫 페이지로 돌아가기",
     "btn_hero_apply": "신청하기",
     "btn_hero_close": "종료",
@@ -19,7 +19,7 @@
     "guide_intro": "『LUNAR PULSE』(<link>https://store.steampowered.com/app/4555610/</link>)의 전투를 먼저 체험하실 수 있는 클로즈드 전투 베타 테스트 신청 양식입니다.",
     "guide_intro_note": "※입력하신 정보는 본 테스트의 운영 및 개발 참고용으로만 사용됩니다.",
     "guide_deadline_title": "◆신청 마감 (일본 시간)",
-    "guide_deadline_val": "2026년 11월 19일(목) 23:59 (JST)",
+    "guide_deadline_val": "2026년 11월 19일(목) 23:59 (일본 시간)",
     "guide_period_title": "◆실시 기간 (일본 시간)",
     "guide_period_val": "2026년 11월 23일(월) 12:00 ~ 12월 7일(월) 11:59",
     "info_period_note": "※ 일정은 예고 없이 변경될 수 있습니다.",
@@ -72,7 +72,7 @@
     "wishlist_no": "아직입니다 (등록할 예정입니다)",
     "err_wishlist_required": "옵션을 선택해 주세요.",
     "confirm_title": "신청 내용 확인",
-    "confirm_desc": "입력하신 내용을 확인해 주세요. 제출 버튼을 누르면 신청이 완료됩니다.",
+    "confirm_desc": "입력하신 내용을 확인해 주세요. '제출' 버튼을 누르면 신청이 완료됩니다.",
     "confirm_email_label": "이메일 주소",
     "confirm_discord_label": "Discord '사용자명'",
     "confirm_wishlist_label": "『LUNAR PULSE』 Steam 위시리스트 등록",
@@ -85,6 +85,6 @@
     "apply_done_allow": "*메일을 확실히 받으시려면 이 주소를 주소록에 등록하거나 수신 허용 설정을 해 주세요.",
     "apply_done_warn_title": "다음의 경우 추첨 대상에서 제외되니 유의해 주세요.",
     "apply_done_warn_discord": "입력하신 Discord 사용자명을 확인할 수 없는 경우",
-    "apply_done_warn_server": "LUNAR PULSE 공식 Discord 서버(<link>https://discord.gg/rckDPVCbVe</link>) 가입을 확인할 수 없는 경우"
+    "apply_done_warn_server": "입력하신 Discord 사용자명을 LUNAR PULSE 공식 Discord 서버(<link>https://discord.gg/rckDPVCbVe</link>) 내에서 확인할 수 없는 경우"
   }
 }

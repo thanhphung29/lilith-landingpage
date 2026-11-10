@@ -72,7 +72,7 @@
     "wishlist_no": "Belum (akan saya tambahkan)",
     "err_wishlist_required": "Pilih salah satu opsi.",
     "confirm_title": "Konfirmasi pendaftaran Anda",
-    "confirm_desc": "Periksa data yang Anda isi. Pendaftaran akan dikirim saat Anda menekan Kirim.",
+    "confirm_desc": "Periksa data yang Anda isi. Pendaftaran akan selesai saat Anda menekan tombol \"Kirim\".",
     "confirm_email_label": "Alamat email",
     "confirm_discord_label": "\"Nama pengguna\" Discord",
     "confirm_wishlist_label": "Wishlist Steam \"LUNAR PULSE\"",
@@ -85,6 +85,6 @@
     "apply_done_allow": "*Agar email pasti diterima, mohon tambahkan alamat ini ke kontak Anda atau izinkan email dari alamat ini.",
     "apply_done_warn_title": "Harap diperhatikan bahwa Anda tidak akan diikutsertakan dalam undian jika:",
     "apply_done_warn_discord": "kami tidak dapat memverifikasi nama pengguna Discord yang Anda masukkan.",
-    "apply_done_warn_server": "kami tidak dapat memastikan bahwa Anda telah bergabung dengan server Discord resmi LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
+    "apply_done_warn_server": "kami tidak dapat menemukan nama pengguna Discord yang Anda masukkan di server Discord resmi LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
   }
 }

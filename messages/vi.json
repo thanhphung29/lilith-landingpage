@@ -72,7 +72,7 @@
     "wishlist_no": "Chưa (tôi sẽ thêm)",
     "err_wishlist_required": "Vui lòng chọn một tùy chọn.",
     "confirm_title": "Xác nhận đăng ký của bạn",
-    "confirm_desc": "Vui lòng kiểm tra lại thông tin đã nhập. Đăng ký của bạn sẽ được gửi khi bạn nhấn Gửi.",
+    "confirm_desc": "Vui lòng kiểm tra lại thông tin đã nhập. Bạn sẽ hoàn tất đăng ký khi nhấn \"Gửi\".",
     "confirm_email_label": "Địa chỉ email",
     "confirm_discord_label": "\"Tên người dùng\" Discord",
     "confirm_wishlist_label": "Thêm \"LUNAR PULSE\" vào danh sách mong muốn Steam",
@@ -85,6 +85,6 @@
     "apply_done_allow": "*Để đảm bảo nhận được email, vui lòng thêm địa chỉ này vào danh bạ hoặc cho phép nhận email từ địa chỉ này.",
     "apply_done_warn_title": "Xin lưu ý rằng bạn sẽ không được đưa vào danh sách bốc thăm nếu:",
     "apply_done_warn_discord": "Chúng tôi không thể xác minh tên người dùng Discord bạn đã nhập.",
-    "apply_done_warn_server": "Chúng tôi không thể xác nhận bạn đã tham gia máy chủ Discord chính thức của LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
+    "apply_done_warn_server": "Chúng tôi không tìm thấy tên người dùng Discord bạn đã nhập trong máy chủ Discord chính thức của LUNAR PULSE (<link>https://discord.gg/rckDPVCbVe</link>)."
   }
 }
