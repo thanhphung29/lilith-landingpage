@@ -32,7 +32,7 @@ export default async function ApplyPage() {
 
   return (
     <>
-      <main className="relative z-10 flex-1 px-4 pt-28 pb-20 sm:px-6">
+      <main className="relative z-20 flex-1 px-4 pt-28 pb-20 sm:px-6">
         <div className="mx-auto max-w-3xl">
           {/* Guidelines (notes before filling): swapped for the thank-you message once applied */}
           <ApplyForm

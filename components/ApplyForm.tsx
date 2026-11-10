@@ -72,6 +72,10 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const [captchaKey, setCaptchaKey] = useState(0);
   const [formKey, setFormKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  // A message in the bottom-right corner for failures at the confirm step: the form it sends the
+  // applicant back to may already have cleared the inline error (a new captcha token arriving
+  // clears it) before they could read it
+  const [toast, setToast] = useState<string | null>(null);
   // Every field filled in and every agreement ticked (format is still checked on submit)
   const [filled, setFilled] = useState(isDraftComplete);
   const stepRef = useRef(step);
@@ -84,12 +88,20 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   }, [step]);
 
   useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(null), 8000);
+    return () => clearTimeout(id);
+  }, [toast]);
+
+  useEffect(() => {
     return () => {
       // Switching language stays on the apply page: the next copy carries on from this step
       if (/\/cbt\/apply\/?$/.test(window.location.pathname)) {
         scrolledStep.current = stepRef.current;
         return;
       }
+      // Leaving for another page (e.g. the top page): coming back asks for a new captcha token
+      setToken(null);
       if (stepRef.current === "done") {
         clearDraft();
         setFlow({ step: "form", entry: null });
@@ -136,9 +148,9 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     draft.consents = CONSENTS.filter((key) => data.get(key));
     setFilled(
       String(data.get("email") ?? "").trim() !== "" &&
-        String(data.get("discord") ?? "").trim() !== "" &&
-        !!data.get("wishlist") &&
-        CONSENTS.every((key) => data.get(key)),
+      String(data.get("discord") ?? "").trim() !== "" &&
+      !!data.get("wishlist") &&
+      CONSENTS.every((key) => data.get(key)),
     );
   }
 
@@ -182,6 +194,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     if (!token) {
       setFlow({ step: "form", entry: null });
       setErrors({ captcha: t("err_captcha_required") });
+      setToast(t("err_captcha_required"));
       return;
     }
 
@@ -204,13 +217,14 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         return;
       }
       // Back to the form, with the reason shown under the captcha
+      const message = t(result.error === "captcha_failed" ? "err_captcha_failed" : "err_submit_failed");
       setFlow({ step: "form", entry: null });
-      setErrors({
-        captcha: t(result.error === "captcha_failed" ? "err_captcha_failed" : "err_submit_failed"),
-      });
+      setErrors({ captcha: message });
+      setToast(message);
     } catch {
       setFlow({ step: "form", entry: null });
       setErrors({ captcha: t("err_submit_failed") });
+      setToast(t("err_submit_failed"));
     } finally {
       setSubmitting(false);
       // The token is single use: get a fresh one
@@ -282,238 +296,256 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         step === "form" && guide
       )}
 
-    <div ref={formAreaRef} className="scroll-mt-24">
-      <form
-        key={formKey}
-        ref={formRef}
-        onSubmit={handleSubmit}
-        onChange={checkFilled}
-        onReset={() => setFilled(false)}
-        noValidate
-        className={step === "form" ? "space-y-6" : "hidden"}
-      >
-        <fieldset
-          className={`${CARD} ${errors.consent ? "border-red-500/80" : ""}`}
-          aria-describedby={errors.consent ? "consent-error" : undefined}
+      <div ref={formAreaRef} className="scroll-mt-24">
+        <form
+          key={formKey}
+          ref={formRef}
+          onSubmit={handleSubmit}
+          onChange={checkFilled}
+          onReset={() => setFilled(false)}
+          noValidate
+          className={step === "form" ? "space-y-6" : "hidden"}
         >
-          <legend className="sr-only">{t("form_consent_label")}</legend>
-          <p className={LABEL} aria-hidden="true">
-            {t("form_consent_label")} <span className="text-gothic-gold">*</span>
-          </p>
-          <p className="mb-4 text-base text-gothic-body">{t("form_consent_sub")}</p>
-          <div className="space-y-3">
-            {CONSENTS.map((key) => (
-              <label
-                key={key}
-                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
-              >
-                <input
-                  type="checkbox"
-                  id={key}
-                  name={key}
-                  defaultChecked={draft.consents.includes(key)}
-                  onChange={() => clearError("consent")}
-                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
-                />
-                <span className="text-base text-gothic-body">{t(key)}</span>
-              </label>
-            ))}
-          </div>
-          {errors.consent && <FieldError id="consent-error" message={errors.consent} />}
-        </fieldset>
-
-        <div className={CARD}>
-          <label htmlFor="applicantEmail" className={LABEL}>
-            {t("form_email_label")} <span className="text-gothic-gold">*</span>
-          </label>
-          <p className="mb-4 text-base text-gothic-body">{t("form_email_sub")}</p>
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
-              <i className="fa-regular fa-envelope" aria-hidden="true" />
-            </div>
-            <input
-              type="email"
-              id="applicantEmail"
-              name="email"
-              autoComplete="email"
-              maxLength={EMAIL_MAX_LENGTH}
-              defaultValue={draft.email}
-              placeholder="yourname@example.com"
-              aria-invalid={!!errors.email}
-              aria-describedby={errors.email ? "email-error" : undefined}
-              onChange={() => clearError("email")}
-              className={`${INPUT} ${errors.email ? INPUT_ERROR : ""}`}
-            />
-          </div>
-          {errors.email && <FieldError id="email-error" message={errors.email} />}
-        </div>
-
-        <div className={CARD}>
-          <label htmlFor="discordHandle" className={LABEL}>
-            {t("form_discord_label")} <span className="text-gothic-gold">*</span>
-          </label>
-          <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-body">
-            <p>
-              <strong>{t("discord_hint_ex")}</strong>{" "}
-              <span className="text-gothic-gold">lunar_tester</span>
-              <br />
-              <span className="text-gothic-body">{t("discord_hint_1")}</span>
+          <fieldset
+            className={`${CARD} ${errors.consent ? "border-red-500/80" : ""}`}
+            aria-describedby={errors.consent ? "consent-error" : undefined}
+          >
+            <legend className="sr-only">{t("form_consent_label")}</legend>
+            <p className={LABEL} aria-hidden="true">
+              {t("form_consent_label")} <span className="text-gothic-gold">*</span>
             </p>
-            <p className="text-gothic-gold">{t("discord_hint_warn")}</p>
-          </div>
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
-              <i className="fa-brands fa-discord" aria-hidden="true" />
+            <p className="mb-4 text-base text-gothic-body">{t("form_consent_sub")}</p>
+            <div className="space-y-3">
+              {CONSENTS.map((key) => (
+                <label
+                  key={key}
+                  className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+                >
+                  <input
+                    type="checkbox"
+                    id={key}
+                    name={key}
+                    defaultChecked={draft.consents.includes(key)}
+                    onChange={() => clearError("consent")}
+                    className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 rounded-[4px] accent-gothic-gold"
+                  />
+                  <span className="text-base text-gothic-body">{t(key)}</span>
+                </label>
+              ))}
             </div>
-            <input
-              type="text"
-              id="discordHandle"
-              name="discord"
-              autoComplete="off"
-              defaultValue={draft.discord}
-              placeholder="username"
-              aria-invalid={!!errors.discord}
-              aria-describedby={errors.discord ? "discord-error" : undefined}
-              onChange={() => clearError("discord")}
-              className={`${INPUT} ${errors.discord ? INPUT_ERROR : ""}`}
-            />
-          </div>
-          {errors.discord && <FieldError id="discord-error" message={errors.discord} />}
-        </div>
-
-        <fieldset
-          className={`${CARD} ${errors.wishlist ? "border-red-500/80" : ""}`}
-          aria-describedby={errors.wishlist ? "wishlist-error" : undefined}
-        >
-          <legend className="sr-only">{t("form_wishlist_label")}</legend>
-          <p className={LABEL} aria-hidden="true">
-            {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
-          </p>
-          <div className="mt-3 space-y-3">
-            {(["yes", "no"] as const).map((value) => (
-              <label
-                key={value}
-                className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
-              >
-                <input
-                  type="radio"
-                  id={`wishlist_${value}`}
-                  name="wishlist"
-                  value={value}
-                  defaultChecked={draft.wishlist === value}
-                  onChange={() => clearError("wishlist")}
-                  className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
-                />
-                <span className="text-base text-gothic-body">{t(`wishlist_${value}`)}</span>
-              </label>
-            ))}
-          </div>
-          {errors.wishlist && <FieldError id="wishlist-error" message={errors.wishlist} />}
-        </fieldset>
-
-        <div className="flex flex-col items-center pt-2">
-          <div className={`flex flex-col items-center ${token ? "" : "mb-5"}`}>
-            {/* Hidden (not unmounted) once verified, so it reappears if the token expires */}
-            <div className={token ? "hidden" : undefined}>
-              <Turnstile
-                resetKey={captchaKey}
-                keepToken={hasFreshToken}
-                onToken={(value) => {
-                  setToken(value);
-                  if (value) clearError("captcha");
-                }}
-              />
-            </div>
-            {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
-          </div>
-          <div className="btn-wrap">
-            <button
-              type="submit"
-              disabled={!filled || !token}
-              className="btn-img text-gothic-body! flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
-            >
-              <span>{t("btn_next")}</span>
-              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-      </form>
-
-      {step === "confirm" && entry && (
-        <section className="space-y-6">
-          <p className="text-center text-base leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
+            {errors.consent && <FieldError id="consent-error" message={errors.consent} />}
+          </fieldset>
 
           <div className={CARD}>
-            <p className={CONFIRM_LABEL}>
-              {t("confirm_email_label")} <span className="text-gothic-gold">*</span>
-            </p>
+            <label htmlFor="applicantEmail" className={LABEL}>
+              {t("form_email_label")} <span className="text-gothic-gold">*</span>
+            </label>
+            <p className="mb-4 text-base text-gothic-body">{t("form_email_sub")}</p>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
                 <i className="fa-regular fa-envelope" aria-hidden="true" />
               </div>
-              <div className={`${INPUT} break-all`}>{entry.email}</div>
+              <input
+                type="email"
+                id="applicantEmail"
+                name="email"
+                autoComplete="email"
+                maxLength={EMAIL_MAX_LENGTH}
+                defaultValue={draft.email}
+                placeholder="yourname@example.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                onChange={() => clearError("email")}
+                className={`${INPUT} ${errors.email ? INPUT_ERROR : ""}`}
+              />
             </div>
+            {errors.email && <FieldError id="email-error" message={errors.email} />}
           </div>
 
           <div className={CARD}>
-            <p className={CONFIRM_LABEL}>
-              {t("confirm_discord_label")} <span className="text-gothic-gold">*</span>
-            </p>
+            <label htmlFor="discordHandle" className={LABEL}>
+              {t("form_discord_label")} <span className="text-gothic-gold">*</span>
+            </label>
+            <div className="mb-3 space-y-1.5 rounded border border-[#97691a]/50 bg-[#05070d] p-3 text-sm text-gothic-body">
+              <p>
+                <strong>{t("discord_hint_ex")}</strong>{" "}
+                <span className="text-gothic-gold">lunar_tester</span>
+                <br />
+                <span className="text-gothic-body">{t("discord_hint_1")}</span>
+              </p>
+              <p className="text-gothic-gold">{t("discord_hint_warn")}</p>
+            </div>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
                 <i className="fa-brands fa-discord" aria-hidden="true" />
               </div>
-              <div className={`${INPUT} break-all`}>{entry.discord}</div>
-            </div>
-          </div>
-
-          <div className={CARD}>
-            <p className={CONFIRM_LABEL}>
-              {t("confirm_wishlist_label")} <span className="text-gothic-gold">*</span>
-            </p>
-            <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
               <input
-                type="radio"
-                checked
-                readOnly
-                tabIndex={-1}
-                className="pointer-events-none h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
+                type="text"
+                id="discordHandle"
+                name="discord"
+                autoComplete="off"
+                defaultValue={draft.discord}
+                placeholder="username"
+                aria-invalid={!!errors.discord}
+                aria-describedby={errors.discord ? "discord-error" : undefined}
+                onChange={() => clearError("discord")}
+                className={`${INPUT} ${errors.discord ? INPUT_ERROR : ""}`}
               />
-              <span className="text-base text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
             </div>
+            {errors.discord && <FieldError id="discord-error" message={errors.discord} />}
           </div>
 
-          <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center sm:gap-4">
+          <fieldset
+            className={`${CARD} ${errors.wishlist ? "border-red-500/80" : ""}`}
+            aria-describedby={errors.wishlist ? "wishlist-error" : undefined}
+          >
+            <legend className="sr-only">{t("form_wishlist_label")}</legend>
+            <p className={LABEL} aria-hidden="true">
+              {t("form_wishlist_label")} <span className="text-gothic-gold">*</span>
+            </p>
+            <div className="mt-3 space-y-3">
+              {(["yes", "no"] as const).map((value) => (
+                <label
+                  key={value}
+                  className="flex cursor-pointer items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5 transition-colors hover:bg-[#141a2b]"
+                >
+                  <input
+                    type="radio"
+                    id={`wishlist_${value}`}
+                    name="wishlist"
+                    value={value}
+                    defaultChecked={draft.wishlist === value}
+                    onChange={() => clearError("wishlist")}
+                    className="h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
+                  />
+                  <span className="text-base text-gothic-body">{t(`wishlist_${value}`)}</span>
+                </label>
+              ))}
+            </div>
+            {errors.wishlist && <FieldError id="wishlist-error" message={errors.wishlist} />}
+          </fieldset>
+
+          <div className="flex flex-col items-center pt-2">
+            <div className={`flex flex-col items-center ${token ? "" : "mb-5"}`}>
+              {/* Hidden (not unmounted) once verified, so it reappears if the token expires */}
+              <div className={token ? "hidden" : undefined}>
+                <Turnstile
+                  resetKey={captchaKey}
+                  keepToken={hasFreshToken}
+                  onToken={(value) => {
+                    setToken(value);
+                    if (value) clearError("captcha");
+                  }}
+                />
+              </div>
+              {errors.captcha && <FieldError id="captcha-error" message={errors.captcha} />}
+            </div>
             <div className="btn-wrap">
-              {!submitting && (
-                <>
-                  <div className="btn-glow" aria-hidden="true" />
-                  <ButtonParticles />
-                </>
-              )}
+              <button
+                type="submit"
+                disabled={!filled || !token}
+                className="btn-img text-gothic-body! flex cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 items-center justify-center gap-3 text-base font-black uppercase tracking-wider"
+              >
+                <span>{t("btn_next")}</span>
+                <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </form>
+
+        {step === "confirm" && entry && (
+          <section className="space-y-6">
+            <p className="text-center text-base leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
+
+            <div className={CARD}>
+              <p className={CONFIRM_LABEL}>
+                {t("confirm_email_label")} <span className="text-gothic-gold">*</span>
+              </p>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
+                  <i className="fa-regular fa-envelope" aria-hidden="true" />
+                </div>
+                <div className={`${INPUT} break-all`}>{entry.email}</div>
+              </div>
+            </div>
+
+            <div className={CARD}>
+              <p className={CONFIRM_LABEL}>
+                {t("confirm_discord_label")} <span className="text-gothic-gold">*</span>
+              </p>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
+                  <i className="fa-brands fa-discord" aria-hidden="true" />
+                </div>
+                <div className={`${INPUT} break-all`}>{entry.discord}</div>
+              </div>
+            </div>
+
+            <div className={CARD}>
+              <p className={CONFIRM_LABEL}>
+                {t("confirm_wishlist_label")} <span className="text-gothic-gold">*</span>
+              </p>
+              <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
+                <input
+                  type="radio"
+                  checked
+                  readOnly
+                  tabIndex={-1}
+                  className="pointer-events-none h-6 w-6 min-w-6 shrink-0 grow-0 basis-6 accent-gothic-gold"
+                />
+                <span className="text-base text-gothic-body">{t(`wishlist_${entry.wishlist}`)}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center sm:gap-4">
+              <div className="btn-wrap">
+                {!submitting && (
+                  <>
+                    <div className="btn-glow" aria-hidden="true" />
+                    <ButtonParticles />
+                  </>
+                )}
+                <button
+                  type="button"
+                  disabled={submitting}
+                  onClick={sendApplication}
+                  className="btn-img text-gothic-body! flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <i className="fa-solid fa-paper-plane" aria-hidden="true" />
+                  <span>{t("btn_submit")}</span>
+                </button>
+              </div>
               <button
                 type="button"
                 disabled={submitting}
-                onClick={sendApplication}
-                className="btn-img text-gothic-body! flex h-[72px]! w-[240px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => setFlow({ step: "form", entry: null })}
+                className="btn-top-img text-gothic-body! flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <i className="fa-solid fa-paper-plane" aria-hidden="true" />
-                <span>{t("btn_submit")}</span>
+                <i className="fa-solid fa-pen" aria-hidden="true" />
+                <span>{t("confirm_btn_edit")}</span>
               </button>
             </div>
-            <button
-              type="button"
-              disabled={submitting}
-              onClick={() => setFlow({ step: "form", entry: null })}
-              className="btn-top-img text-gothic-body! flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <i className="fa-solid fa-pen" aria-hidden="true" />
-              <span>{t("confirm_btn_edit")}</span>
-            </button>
-          </div>
-        </section>
+          </section>
+        )}
+      </div>
+
+      {toast && (
+        <div
+          role="alert"
+          className="fixed right-4 bottom-4 z-50 flex max-w-[calc(100vw-2rem)] items-start gap-3 rounded border border-red-500/70 bg-[#05070d] px-4 py-3 text-base text-red-400 shadow-royal-box sm:max-w-sm"
+        >
+          <i className="fa-solid fa-circle-exclamation mt-1" aria-hidden="true" />
+          <span className="min-w-0 flex-1">{toast}</span>
+          <button
+            type="button"
+            onClick={() => setToast(null)}
+            aria-label={t("modal_btn")}
+            className="cursor-pointer text-gothic-body transition-colors hover:text-gothic-gold"
+          >
+            <i className="fa-solid fa-xmark" aria-hidden="true" />
+          </button>
+        </div>
       )}
-    </div>
     </>
   );
 }
