@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import ButtonParticles from "./ButtonParticles";
 import useApplyClosed from "./hooks/useApplyClosed";
 
-export default function ApplyButton({ label, closedLabel }: { label: string; closedLabel: string }) {
+export default function ApplyButton({ label }: { label: string }) {
   const closed = useApplyClosed();
 
   if (closed) {
@@ -15,7 +15,7 @@ export default function ApplyButton({ label, closedLabel }: { label: string; clo
           disabled
           className="btn-img flex cursor-not-allowed items-center justify-center gap-3 text-lg font-black uppercase tracking-wider opacity-60 grayscale"
         >
-          {closedLabel}
+          {label}
         </button>
       </div>
     );

@@ -12,6 +12,8 @@ import { type Entry, type Step, getFlow, hasFreshToken, setFlow, setToken, useFl
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
+// The confirm step's cards are read-only, so no hover highlight
+const CONFIRM_CARD = "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box";
 const LABEL = "mb-1 block text-base font-bold text-gothic-body sm:text-xl";
 // Same as LABEL, with more room before the answer on the confirm step
 const CONFIRM_LABEL = "mb-3 block text-base font-bold text-gothic-body sm:text-xl";
@@ -457,9 +459,9 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
           <section className="space-y-6">
             <p className="text-center text-base leading-relaxed text-gothic-body">{t("confirm_desc")}</p>
 
-            <div className={CARD}>
+            <div className={CONFIRM_CARD}>
               <p className={CONFIRM_LABEL}>
-                {t("confirm_email_label")} <span className="text-gothic-gold">*</span>
+                {t("confirm_email_label")}
               </p>
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
@@ -469,9 +471,9 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               </div>
             </div>
 
-            <div className={CARD}>
+            <div className={CONFIRM_CARD}>
               <p className={CONFIRM_LABEL}>
-                {t("confirm_discord_label")} <span className="text-gothic-gold">*</span>
+                {t("confirm_discord_label")}
               </p>
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gothic-gold">
@@ -481,9 +483,9 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
               </div>
             </div>
 
-            <div className={CARD}>
+            <div className={CONFIRM_CARD}>
               <p className={CONFIRM_LABEL}>
-                {t("confirm_wishlist_label")} <span className="text-gothic-gold">*</span>
+                {t("confirm_wishlist_label")}
               </p>
               <div className="flex items-center gap-3 rounded border border-[#97691a]/40 bg-[#05070d] p-3.5">
                 <input

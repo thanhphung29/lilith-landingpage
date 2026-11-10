@@ -48,7 +48,7 @@ export default async function Home() {
               </FitText>
             </div>
 
-            <ApplyButton label={t("btn_hero_apply")} closedLabel={t("btn_hero_close")} />
+            <ApplyButton label={t("btn_hero_apply")} />
           </div>
         </section>
       </main>
