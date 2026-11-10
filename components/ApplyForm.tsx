@@ -8,6 +8,7 @@ import useApplyClosed from "./hooks/useApplyClosed";
 import { SOCIALS } from "./socials";
 import ButtonParticles from "./ButtonParticles";
 import Turnstile from "./Turnstile";
+import { type Entry, type Step, getFlow, hasFreshToken, setFlow, setToken, useFlow } from "./applyFlow";
 
 const CARD =
   "rounded-xl border border-[#97691a]/60 bg-[#0c1220]/85 p-6 shadow-royal-box transition-colors hover:border-[#bfae67]";
@@ -18,8 +19,6 @@ type Errors = { email?: string; discord?: string; wishlist?: string; consent?: s
 
 const DISCORD_URL = SOCIALS.find((social) => social.label === "Discord")?.href ?? "#";
 const SUPPORT_EMAIL = "support@fahrenheit213.co.jp";
-
-type Entry = { email: string; discord: string; wishlist: "yes" | "no"; consents: string[] };
 
 const INPUT_ERROR = "border-red-500/80 focus:border-red-400 focus:ring-red-400";
 const INPUT =
@@ -63,15 +62,13 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
   const closed = useApplyClosed();
   const formRef = useRef<HTMLFormElement>(null);
   // form -> confirm (review what was entered) -> done (after the API says OK), all on the page
-  const [step, setStep] = useState<"form" | "confirm" | "done">("form");
+  // (the step, the entry and the captcha token are shared by every language's copy of the page)
+  const { step, entry, token } = useFlow();
   const headingRef = useRef<HTMLDivElement>(null);
   const formAreaRef = useRef<HTMLDivElement>(null);
   // The step the page last scrolled for, so arriving on the page (or coming back to it) never scrolls
-  const scrolledStep = useRef<"form" | "confirm" | "done">("form");
-  // What the applicant entered, shown on the confirm step before anything is sent
-  const [entry, setEntry] = useState<Entry | null>(null);
+  const scrolledStep = useRef<Step>(getFlow().step);
   const [errors, setErrors] = useState<Errors>({});
-  const [token, setToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
   const [formKey, setFormKey] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -88,11 +85,15 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
 
   useEffect(() => {
     return () => {
+      // Switching language stays on the apply page: the next copy carries on from this step
+      if (/\/cbt\/apply\/?$/.test(window.location.pathname)) {
+        scrolledStep.current = stepRef.current;
+        return;
+      }
       if (stepRef.current === "done") {
         clearDraft();
-        setStep("form");
+        setFlow({ step: "form", entry: null });
         scrolledStep.current = "form";
-        setEntry(null);
         setErrors({});
         setFilled(false);
         // Remount the form instead of form.reset(): reset() clears the radios/checkboxes in the DOM
@@ -102,9 +103,8 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       } else if (stepRef.current === "confirm") {
         // Leaving from the confirm step: coming back lands on the form with what was entered
         // (the fields keep their values), not on the confirm step
-        setStep("form");
+        setFlow({ step: "form", entry: null });
         scrolledStep.current = "form";
-        setEntry(null);
       } else {
         // Coming back to this step must not scroll
         scrolledStep.current = stepRef.current;
@@ -170,15 +170,17 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
     }
 
     // Valid: go to the confirm step. Nothing is sent until the applicant confirms.
-    setEntry({ email, discord, wishlist: wishlist as Entry["wishlist"], consents: CONSENTS.filter((key) => data.get(key)) });
-    setStep("confirm");
+    setFlow({
+      step: "confirm",
+      entry: { email, discord, wishlist: wishlist as Entry["wishlist"], consents: CONSENTS.filter((key) => data.get(key)) },
+    });
   }
 
   async function sendApplication() {
     if (!entry) return;
     // The captcha token can expire while the confirm step is open
     if (!token) {
-      setStep("form");
+      setFlow({ step: "form", entry: null });
       setErrors({ captcha: t("err_captcha_required") });
       return;
     }
@@ -193,7 +195,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
       const result: { ok?: boolean; error?: string } = await res.json().catch(() => ({}));
       if (res.ok && result.ok) {
         clearDraft();
-        setStep("done");
+        setFlow({ step: "done", entry: null });
         return;
       }
       // The deadline passed while the application was on its way
@@ -202,12 +204,12 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
         return;
       }
       // Back to the form, with the reason shown under the captcha
-      setStep("form");
+      setFlow({ step: "form", entry: null });
       setErrors({
         captcha: t(result.error === "captcha_failed" ? "err_captcha_failed" : "err_submit_failed"),
       });
     } catch {
-      setStep("form");
+      setFlow({ step: "form", entry: null });
       setErrors({ captcha: t("err_submit_failed") });
     } finally {
       setSubmitting(false);
@@ -415,6 +417,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             <div className={token ? "hidden" : undefined}>
               <Turnstile
                 resetKey={captchaKey}
+                keepToken={hasFreshToken}
                 onToken={(value) => {
                   setToken(value);
                   if (value) clearError("captcha");
@@ -501,7 +504,7 @@ export default function ApplyForm({ guide }: { guide: React.ReactNode }) {
             <button
               type="button"
               disabled={submitting}
-              onClick={() => setStep("form")}
+              onClick={() => setFlow({ step: "form", entry: null })}
               className="btn-top-img text-gothic-body! flex h-[72px]! w-[211px]! cursor-pointer items-center justify-center gap-3 text-base font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60"
             >
               <i className="fa-solid fa-pen" aria-hidden="true" />

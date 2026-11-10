@@ -38,22 +38,38 @@ function loadTurnstile() {
 export default function Turnstile({
   onToken,
   resetKey = 0,
+  keepToken,
 }: {
   onToken: (token: string | null) => void;
   resetKey?: number;
+  // Asked when this copy of the widget starts: true means a usable token is already held (carried
+  // over from another copy of the page), so no new widget or token is needed
+  keepToken?: () => boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const onTokenRef = useRef(onToken);
+  const keepTokenRef = useRef(keepToken);
+  const lastKey = useRef<number | null>(null);
 
   // Keep the latest callback without re-rendering the widget
   useEffect(() => {
     onTokenRef.current = onToken;
+    keepTokenRef.current = keepToken;
   });
 
   useEffect(() => {
     const el = ref.current;
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
     if (!el || !siteKey) return;
+
+    // Same request as last time (this effect also re-runs when the page is shown again, or on
+    // first start in a new copy of the page) and a usable token is in hand: keep it. A new
+    // resetKey always asks for a fresh one.
+    if ((lastKey.current === null || lastKey.current === resetKey) && keepTokenRef.current?.()) {
+      lastKey.current = resetKey;
+      return;
+    }
+    lastKey.current = resetKey;
 
     let widgetId: string | undefined;
     let cancelled = false;
