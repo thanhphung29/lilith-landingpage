@@ -62,7 +62,7 @@ export function generateStaticParams() {
 
 // Needed to turn the relative thumbnail path below into the absolute URL social sites require.
 // Comes from the SITE_URL env var (see lib/site.ts); localhost when it is not set.
-const SITE_URL = getSiteUrl() ?? "http://localhost:3000";
+const SITE_URL = getSiteUrl() ?? "https://lunar-pulse.com";
 
 // Open Graph wants language_TERRITORY
 const OG_LOCALES: Record<Locale, string> = {
